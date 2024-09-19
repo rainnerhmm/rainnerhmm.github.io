@@ -1,6 +1,6 @@
 # compsci thirty
 
 ## demos
-- Moving Square
+- [movin' square](movingsquare)
 
 ## projects
