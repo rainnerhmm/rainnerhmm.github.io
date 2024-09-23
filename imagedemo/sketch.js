@@ -14,5 +14,5 @@ function setup() {
 
 function draw() {
   background(220);
-  image(hotdog,mouseX,mouseY, windowWidth/2, windowHeight/2)
+  image(hotdog,mouseX,mouseY, hotdog.width*0.5, hotdog.height*0.5)
 }
