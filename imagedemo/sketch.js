@@ -1,9 +1,11 @@
-// Project Title
-// Your Name
-// Date
-//
-// Extra for Experts:
-// - describe what you did to take this project "above and beyond"
+// Image Demo
+// September 23rd, 2024
+
+let hotdog;
+
+function preload() {
+  hotdog = loadImage("hotdog.jpg")
+}
 
 
 function setup() {
@@ -12,4 +14,5 @@ function setup() {
 
 function draw() {
   background(220);
+  image(hotdog,mouseX,mouseY, windowWidth/2, windowHeight/2)
 }
