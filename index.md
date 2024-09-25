@@ -3,7 +3,6 @@
 ## demos
 - [movin' square](movingsquare)
 - [imaging](imagedemo)
-- [trafficlighting](trafficlighting)
 ## projects
 <<<<<<< HEAD
 <<<<<<< HEAD
