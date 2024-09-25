@@ -5,4 +5,4 @@
 - [imaging](imagedemo)
 - [trafficlighting](trafficlighting)
 ## projects
-- [interactive project](interactivescene)
+- [interactive project || rocks! papers!! scissors!!!](interactivescene)
