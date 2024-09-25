@@ -5,7 +5,7 @@
 // GOAL: make a 'traffic light' simulator. For now, just have the light
 // changing according to time. You may want to investigate the millis()
 
-let trafficState = ["green", "yellow", "red"]
+let trafficState = ["green", "yellow", "red"];
 let lastSwitchedTime = 0;
 let waitTime = 2000;
 
