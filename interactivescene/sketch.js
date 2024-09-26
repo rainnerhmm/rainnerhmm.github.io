@@ -16,40 +16,37 @@ function setup() {
 
 function draw() {
   background(bgColor);
-  temp();
-  keyTyped()
+  keyTyped();
+  oppenentTurn
 }
 
 function keyTyped(){
-  if (key === key3){
+  if (keyIsDown(key1)) {
     fill(255);
-    text(choices[2], windowWidth/2, windowHeight/2);
-    playerTurn = false
+    textAlign(LEFT);
+    text(choices[0], width / 4, height / 2);
+  }
+  else if (keyIsDown(key2)) {
+    fill(255);
+    textAlign(LEFT);
+    text(choices[1], width / 4, height / 2);
+  }
+  else if (keyIsDown(key3)) {
+    fill(255);
+    textAlign(LEFT);
+    text(choices[2], width / 4, height / 2);
   }
 }
 
-function temp() {
-  if (playerTurn === true) {
-    if (keyIsDown(key1)) {
-      fill(255);
-      text(choices[0], windowWidth/2, windowHeight/2);
-    }
-    else if (keyIsDown(key2)) {
-      fill(255);
-      text(choices[1], windowWidth/2, windowHeight/2);
-    }
-    else if (keyIsDown(key3)) {
-      fill(255);
-      text(choices[2], windowWidth/2, windowHeight/2);
-    }
-  }
-}
 
-function temp2(){
+function oppenentTurn(){
   if (playerTurn === false) {
     let oppselection = random(0,2);
-    text(choices[Math.round(oppselection)], windowWidth/2, windowHeight/2);
+    text(choices[Math.round(oppselection)], width / -4, height/2);
     playerTurn = true;
   }
 }
 
+function windowResized(){
+  resizeCanvas(windowWidth, windowHeight);
+}
