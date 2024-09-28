@@ -15,12 +15,19 @@ let rocks = false;
 let papers = false;
 let scissors = false;
 let optionChosen = false;
+let playerTurn = true; 
+let bgMusic; 
 
+function preload(){
+  soundFormats('mp3');
+  bgMusic = loadSound("interactivescene\Tentacular Circus.mp3");
+}
 function setup() {
   createCanvas(windowWidth, windowHeight);
 }
 
 function draw() {
+  bgMusic.play();
   background(bgColor);
   rpsMove();
   // oppenentTurn;
@@ -31,28 +38,33 @@ function rpsMove() {
     fill(255);
     textAlign(LEFT);
     text(choices[0], width / 4, height / 2);
+    playerTurn = false;
+  }
+  else if (papers === true) {
+    fill(255);
+    textAlign(LEFT);
+    text(choices[1], width / 4, height / 2);
+    playerTurn = false;
+  }
+  else if (scissors === true) {
+    fill(255);
+    textAlign(LEFT);
+    text(choices[2], width / 4, height / 2);
+    playerTurn = false;
   }
 }
 
-//   fill(255);
-//   textAlign(LEFT);
-//   text(choices[1], width / 4, height / 2);
-
-
-//   fill(255);
-//   textAlign(LEFT);
-//   text(choices[2], width / 4, height / 2);
-// }
-
 function keyTyped() {
-  if (keyCode === 49) {
-    rocks = true;
-  }
-  else if (keyCode === 50) {
-    papers = true;
-  }
-  else if (keyCode === 51) {
-    scissors = true;
+  if (playerTurn === true) {
+    if (keyCode === 49) {
+      rocks = true;
+    }
+    else if (keyCode === 50) {
+      papers = true;
+    }
+    else if (keyCode === 51) {
+      scissors = true;
+    }
   }
 }
 
