@@ -16,11 +16,13 @@ let papers = false;
 let scissors = false;
 let optionChosen = false;
 let playerTurn = true;
-let bgMusic;
+let musicVar;
+let startButton;
 
 function preload() {
   soundFormats("mp3");
-  bgMusic = loadSound("interactivescene\assets\sounds\backgroundMusic.mp3");
+  musicVar = loadSound("assets/sounds/backgroundMusic.mp3");
+  startButton = loadImage("assets/graphics/startButton.gif")
 }
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -29,15 +31,19 @@ function setup() {
 
 function draw() {
   background(bgColor);
-  rpsMove();
+  startScreen();
+  // rpsMove();
   // oppenentTurn;
 }
 function backgroundMusic() {
-  bgMusic.play();
-  bgMusic.loop();
+  musicVar.play();
+  musicVar.loop();
+  musicVar.setVolume(0.3);
+  userStartAudio();
 }
 function startScreen() {
-
+  imageMode(CORNER);
+  image(startButton, 875, 530, startButton.width/2, startButton.height/2)
 }
 function rpsMove() {
   if (rocks === true) {
