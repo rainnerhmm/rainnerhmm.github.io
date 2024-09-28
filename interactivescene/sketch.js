@@ -15,24 +15,30 @@ let rocks = false;
 let papers = false;
 let scissors = false;
 let optionChosen = false;
-let playerTurn = true; 
-let bgMusic; 
+let playerTurn = true;
+let bgMusic;
 
-function preload(){
-  soundFormats('mp3');
-  bgMusic = loadSound("interactivescene\Tentacular Circus.mp3");
+function preload() {
+  soundFormats("mp3");
+  bgMusic = loadSound("interactivescene\assets\sounds\backgroundMusic.mp3");
 }
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  backgroundMusic();
 }
 
 function draw() {
-  bgMusic.play();
   background(bgColor);
   rpsMove();
   // oppenentTurn;
 }
+function backgroundMusic() {
+  bgMusic.play();
+  bgMusic.loop();
+}
+function startScreen() {
 
+}
 function rpsMove() {
   if (rocks === true) {
     fill(255);
