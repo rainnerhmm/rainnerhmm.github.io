@@ -8,13 +8,11 @@
 // 1's keycode is 49
 // 2's keycode is 50
 // 3's keycode is 51
-let choices = ["rocks", "papers", "scissors"];
-let bgColor = [5, 0, 32];
-let textOnScreen = false;
+const choices = ["rocks", "papers", "scissors"];
+const bgColor = [5, 0, 32];
 let rocks = false;
 let papers = false;
 let scissors = false;
-let optionChosen = false;
 let playerTurn = true;
 let musicVar;
 let startButton;
@@ -22,6 +20,10 @@ let player;
 let enemy;
 let referee;
 let startVar = true;
+let battleVar = false;
+let sideSwitch = ["LEFT", "RIGHT"]
+let selection = 0
+
 
 function preload() {
   soundFormats("mp3"); // setting the sound format
@@ -40,8 +42,8 @@ function setup() {
 function draw() {
   background(bgColor);
   startScreen();
+  battleScreen();
   rpsMove();
-  // oppenentTurn;
 }
 function backgroundMusic() {
   musicVar.play();
@@ -51,40 +53,65 @@ function backgroundMusic() {
 }
 function startScreen() {
   if (startVar === true) {
-    imageMode(CENTER);
-    image(startButton, width/1.3, height/1.5, startButton.width / 2, startButton.height / 2)
-    image(enemy, 450, 450, enemy.width, enemy.height)
+    image(startButton, width/1.6, height/2.5, startButton.width / 2, startButton.height / 2); //centers start button vertically, and aligns to the right horizontally
     rotate(-0.35);
-    image(player, width/-7, height/1.15, player.width*1.6, player.height*1.6)
+    image(player, width/-8, height/1.15, player.width*1.6, player.height*1.6); // semi-centers horizontally, and aligns to the bottom
+    rotate(3.15);
+    image(enemy, width/-1.13, height/-1.45, enemy.width*1.6, enemy.height*1.6); // semi-centers horizontally, and aligns to the top
+  }
+}
+
+function battleScreen(){
+  playerTurn = true;
+  if (battleVar === true) {
+    image(player, width/4, height/2, player.width, player.height);
   }
 }
 function rpsMove() {
   if (rocks === true) {
     fill(255);
-    textAlign(LEFT);
+    textAlign(sideSwitch[selection]);
     text(choices[0], width / 4, height / 2);
     playerTurn = false;
   }
   else if (papers === true) {
     fill(255);
-    textAlign(LEFT);
+    textAlign(sideSwitch[selection]);
     text(choices[1], width / 4, height / 2);
     playerTurn = false;
   }
   else if (scissors === true) {
     fill(255);
-    textAlign(LEFT);
+    textAlign(sideSwitch[selection]);
     text(choices[2], width / 4, height / 2);
     playerTurn = false;
   }
 }
 
+// function rpsEnemyMove() {
+//   randomNum = Math.round(random(0,2))
+//   console.log(randomNum)
+//     if (randomNum === 0) {
+//       fill(255);
+//       text(choices[randomNum], width/2, height/2);
+//     }
+//     else if (randomNum === 1) {
+//       fill(255);
+//       text(choices[randomNum], width / 2, height / 2);
+//     }
+//     else if (randomNum === 2) {
+//       fill(255);
+//       text(choices[randomNum], width / 2, height / 2);
+//     }
+//   }
+
 function keyTyped() {
   if (startVar === true){
     startVar = false;
-    playerTurn = true;
+    battleVar = true;
   }
   else if (playerTurn === true) {
+    // rpsEnemyMove();
     if (keyCode === 49) {
       rocks = true;
     }
@@ -96,14 +123,6 @@ function keyTyped() {
     }
   }
 }
-
-// function oppenentTurn(){
-//   if (playerTurn === false) {
-//     let oppselection = random(0,2);
-//     text(choices[Math.round(oppselection)], width / -4, height/2);
-//     playerTurn = true;
-//   }
-// }
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
