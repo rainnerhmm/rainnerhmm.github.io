@@ -18,21 +18,29 @@ let optionChosen = false;
 let playerTurn = true;
 let musicVar;
 let startButton;
+let player;
+let enemy;
+let referee;
+let startVar = true;
 
 function preload() {
-  soundFormats("mp3");
-  musicVar = loadSound("assets/sounds/backgroundMusic.mp3");
-  startButton = loadImage("assets/graphics/startButton.gif")
+  soundFormats("mp3"); // setting the sound format
+  musicVar = loadSound("assets/sounds/backgroundMusic.mp3"); // Loads Background Music (Music is 'Tentacular Circus' from the Splatoon Series)
+
+  startButton = loadImage("assets/graphics/startButton.gif"); // Loads the Start Button animation for title screen
+  player = loadImage("assets/graphics/player.png") // Loads the player graphic for title screen
+  enemy = loadImage("assets/graphics/enemy.png") // Loads the enemy graphic for title screen
+  referee = loadImage("assets/graphics/referee.png") // Loads the referee graphic for later
 }
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  backgroundMusic();
+  backgroundMusic(); // Calls the Background Music function
 }
 
 function draw() {
   background(bgColor);
   startScreen();
-  // rpsMove();
+  rpsMove();
   // oppenentTurn;
 }
 function backgroundMusic() {
@@ -42,8 +50,13 @@ function backgroundMusic() {
   userStartAudio();
 }
 function startScreen() {
-  imageMode(CORNER);
-  image(startButton, 875, 530, startButton.width/2, startButton.height/2)
+  if (startVar === true) {
+    imageMode(CENTER);
+    image(startButton, width/1.3, height/1.5, startButton.width / 2, startButton.height / 2)
+    image(enemy, 450, 450, enemy.width, enemy.height)
+    rotate(-0.35);
+    image(player, width/-7, height/1.15, player.width*1.6, player.height*1.6)
+  }
 }
 function rpsMove() {
   if (rocks === true) {
@@ -67,7 +80,11 @@ function rpsMove() {
 }
 
 function keyTyped() {
-  if (playerTurn === true) {
+  if (startVar === true){
+    startVar = false;
+    playerTurn = true;
+  }
+  else if (playerTurn === true) {
     if (keyCode === 49) {
       rocks = true;
     }
