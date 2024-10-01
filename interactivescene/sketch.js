@@ -8,8 +8,11 @@
 // 1's keycode is 49
 // 2's keycode is 50
 // 3's keycode is 51
-const choices = ["rocks", "papers", "scissors"];
+
+const playerChoices = ["rocks", "papers", "scissors"];
+const enemyChoices = structuredClone(playerChoices);
 const bgColor = [5, 0, 32];
+
 let rocks = false;
 let papers = false;
 let scissors = false;
@@ -21,8 +24,11 @@ let enemy;
 let referee;
 let startVar = true;
 let battleVar = false;
-let sideSwitch = ["LEFT", "RIGHT"]
-let selection = 0
+let sideSwitch = ["LEFT", "RIGHT"];
+let selection = 0;
+let randNum;
+let widthScaler;
+let heightScaler;
 
 
 function preload() {
@@ -37,23 +43,29 @@ function preload() {
 function setup() {
   createCanvas(windowWidth, windowHeight);
   backgroundMusic(); // Calls the Background Music function
+  widthScaler = 0.25 * width;
+  heightScaler = 0.25 * height;
 }
 
 function draw() {
   background(bgColor);
   startScreen();
   battleScreen();
-  rpsMove();
+  rpsPlayerMove();
+  rpsLogic();
 }
+
 function backgroundMusic() {
   musicVar.play();
   musicVar.loop();
   musicVar.setVolume(0.3);
   userStartAudio();
 }
+
 function startScreen() {
   if (startVar === true) {
-    image(startButton, width/1.6, height/2.5, startButton.width / 2, startButton.height / 2); //centers start button vertically, and aligns to the right horizontally
+
+    image(startButton, width/1.6, height/2.5, widthScaler, heightScaler); //centers start button vertically, and aligns to the right horizontally
     rotate(-0.35);
     image(player, width/-8, height/1.15, player.width*1.6, player.height*1.6); // semi-centers horizontally, and aligns to the bottom
     rotate(3.15);
@@ -67,43 +79,34 @@ function battleScreen(){
     image(player, width/4, height/2, player.width, player.height);
   }
 }
-function rpsMove() {
+function rpsPlayerMove() {
   if (rocks === true) {
     fill(255);
     textAlign(sideSwitch[selection]);
-    text(choices[0], width / 4, height / 2);
+    text(playerChoices[0], width / 4, height / 2);
     playerTurn = false;
+    rpsEnemyMove();
   }
   else if (papers === true) {
     fill(255);
     textAlign(sideSwitch[selection]);
-    text(choices[1], width / 4, height / 2);
+    text(playerChoices[1], width / 4, height / 2);
     playerTurn = false;
+    rpsEnemyMove();
   }
   else if (scissors === true) {
     fill(255);
     textAlign(sideSwitch[selection]);
-    text(choices[2], width / 4, height / 2);
+    text(playerChoices[2], width / 4, height / 2);
     playerTurn = false;
+    rpsEnemyMove();
   }
 }
 
-// function rpsEnemyMove() {
-//   randomNum = Math.round(random(0,2))
-//   console.log(randomNum)
-//     if (randomNum === 0) {
-//       fill(255);
-//       text(choices[randomNum], width/2, height/2);
-//     }
-//     else if (randomNum === 1) {
-//       fill(255);
-//       text(choices[randomNum], width / 2, height / 2);
-//     }
-//     else if (randomNum === 2) {
-//       fill(255);
-//       text(choices[randomNum], width / 2, height / 2);
-//     }
-//   }
+function rpsEnemyMove() {
+  text(playerChoices[randNum], width / 2, height / 2);
+  console.log(randNum);
+}
 
 function keyTyped() {
   if (startVar === true){
@@ -111,6 +114,10 @@ function keyTyped() {
     battleVar = true;
   }
   else if (playerTurn === true) {
+    rocks = false;
+    papers = false;
+    scissors = false;
+    randNum = Math.round(random(0,2));
     // rpsEnemyMove();
     if (keyCode === 49) {
       rocks = true;
@@ -126,7 +133,37 @@ function keyTyped() {
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
+  widthScaler = 0.25 * width;
+  heightScaler = 0.25 * height;
 }
 
 function rpsLogic() {
+  if (rocks === true && randNum === 0){
+    text("rocktie", width / 2, height / 4);
+  }
+  else if (papers === true && randNum === 1){
+    text("papertie", width / 2, height / 4);
+  }
+  else if (scissors === true && randNum === 2){
+    text("scissorstie", width / 2, height / 4);
+  }
+  else if (rocks === true && randNum === 1){
+    text("p2 paperwin", width / 2, height / 4);
+  }
+  else if (rocks === true && randNum === 2){
+    text("p1 rockwin", width / 2, height / 4);
+  }
+  else if (papers === true && randNum === 0){
+    text("p1 paperwin", width / 2, height / 4);
+  }
+  else if (papers === true && randNum === 2){
+    text("p2 scissorwin", width / 2, height / 4);
+  }
+  else if (scissors === true && randNum === 0){
+    text("p2 rockwin", width / 2, height / 4);
+  }
+  else if (scissors === true && randNum === 1){
+    text("p1 scissorwin", width / 2, height / 4);
+  }
+  playerTurn = true;
 }
