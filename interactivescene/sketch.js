@@ -36,9 +36,9 @@ function preload() {
   musicVar = loadSound("assets/sounds/backgroundMusic.mp3"); // Loads Background Music (Music is 'Tentacular Circus' from the Splatoon Series)
 
   startButton = loadImage("assets/graphics/startButton.gif"); // Loads the Start Button animation for title screen
-  player = loadImage("assets/graphics/player.png") // Loads the player graphic for title screen
-  enemy = loadImage("assets/graphics/enemy.png") // Loads the enemy graphic for title screen
-  referee = loadImage("assets/graphics/referee.png") // Loads the referee graphic for later
+  player = loadImage("assets/graphics/player.png"); // Loads the player graphic for title screen
+  enemy = loadImage("assets/graphics/enemy.png"); // Loads the enemy graphic for title screen
+  referee = loadImage("assets/graphics/referee.png"); // Loads the referee graphic for later
 }
 function setup() {
   createCanvas(windowWidth, windowHeight);
