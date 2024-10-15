@@ -12,4 +12,10 @@ function setup() {
 
 function draw() {
   background(220);
+  bobber();
+}
+
+function bobber() {
+  fill(255,0,0)
+  circle(50, 50, 25)
 }
