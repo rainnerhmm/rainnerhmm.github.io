@@ -7,3 +7,4 @@
 - [balls that bounce](bouncyballs)
 ## projects
 - [rocks! papers!! scissors!!! interactive scene](interactivescene)
+- [array'd](arrayproject)
