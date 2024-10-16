@@ -58,7 +58,7 @@ function draw() {
 function backgroundMusic() {
   musicVar.play();
   musicVar.loop();
-  musicVar.setVolume(0.3);
+  musicVar.amp(0.3);
   userStartAudio();
 }
 
