@@ -11,20 +11,34 @@ let bobberY = 50;
 let collison2 = {
 
 };
+let lineDist;
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
 }
 
 function draw() {
   background(220);
-  bobber()
+  bobber();
+  console.log(lineDist)
 }
 
 function bobber() {
+  line(bobberX, bobberY, mouseX, mouseY)
+  lineDist = dist(bobberX, bobberY, mouseX, mouseY)
   fill(150);
   circle(bobberX, bobberY, 25);
-  gravity++;
-  bobberY = bobberY + gravity * 0.5;
+  if (lineDist <= 300){
+    gravity++;
+    bobberY = bobberY + gravity * 0.5;
+  }
+  else if (lineDist === 300){
+    gravity--;
+  }
+  // else if (lineDist >= 300){
+  //   gravity--;
+  //   bobberY = bobberY + gravity * 0.5;
+  // }
 }
 function mouseClicked(){
   bobberY = mouseY;
