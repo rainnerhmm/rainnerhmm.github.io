@@ -17,7 +17,7 @@ function setup() {
 
 function draw() {
   background(220);
-  bobber();
+  bobber()
 }
 
 function bobber() {
