@@ -38,7 +38,7 @@ function bobber() {
   else if (lineDist >= strain){
     gravity--;
     strain = strain - 0.1;
-    bobberY = lineDist * strain;
+    bobberY = strain;
   }
 }
 function mouseClicked(){
