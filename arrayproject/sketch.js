@@ -6,17 +6,28 @@
 // - describe what you did to take this project "above and beyond"
 
 // hook physics
-let gravity = 0; // velocity of hook
-let bobberX = 50; // hook x coords
-let bobberY = 50; // hook y coords
+let hook = {
+  x: 50, // hook x coords
+  y: 50, // hook y coords
+  d: 25, // diameter of hook
+  weight: 0, // 
+  resistence: 0, 
+  velocity: 5, // velocity of hook
+};
 
 // missing variables (inspired by https://editor.p5js.org/gabriel.lee/sketches/a1BR-maEV)
 
 // resistence/damper; makes the hook not a perpetual motion machine // velocity should be affected by resistance
 // weight; the weight of the "hook" should play into it's resistence
 
+// diameter/radius > weight > resistence > velocity
+
+// if underwater > increase resistence > slows velocity
+
+// if fish attaches > increases weight > increases resistence > slows velocity
+
 // rod/fishing line logic
-let fishLineDist; // distance from rod (mouse) to hook
+let rodHookDist; // distance from rod (mouse) to hook
 let strain = 300; // maximum distance rod can extend // strain should have a threshold rather than a sole number, strain should be able...
 // ...to extend farther than maximum before snapping
 
@@ -41,41 +52,41 @@ function draw() {
   background(220);
 
   fishLine();
-  bobber();
+  hook2();
 
-  // console.log(fishLineDist);
-  console.log(gravity);
+  // console.log(rodHookDist);
+  console.log(hook.velocity);
 }
 
-function bobber() {
-  // fishLine(bobberX, bobberY, mouseX, mouseY);
-  // fishLineDist = dist(bobberX, bobberY, mouseX, mouseY);
+function hook2() {
+  // fishLine(hook.x, hook.y, mouseX, mouseY);
+  // rodHookDist = dist(hook.x, hook.y, mouseX, mouseY);
   fill(150);
-  circle(bobberX, bobberY, 25);
-  if (fishLineDist <= strain){
-    gravity++;
+  circle(hook.x, hook.y, hook.d);
+  if (rodHookDist <= strain){ // going down
+    hook.velocity++;
     strain = strain + 0.1;
-    bobberY = bobberY + gravity * 0.5;
+    hook.y = hook.y + hook.velocity;
   }
-  else if (fishLineDist >= strain){
-    gravity--;
+  else if (rodHookDist >= strain){ // going up
+    hook.velocity--;
     strain = strain - 0.1;
-    bobberY = bobberY + gravity * 0.5;
+    hook.y = hook.y + hook.velocity;
   }
 }
 function mouseClicked(){
-  bobberY = mouseY;
-  bobberX = mouseX;
-  gravity = 0;
+  hook.y = mouseY;
+  hook.x = mouseX;
+  hook.velocity = 0;
 }
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
 
 function fishLine (){
-  stroke(fishLineDist, 0, 0);
-  line(bobberX, bobberY, mouseX, mouseY);
-  fishLineDist = dist(bobberX, bobberY, mouseX, mouseY);
+  stroke(rodHookDist, 0, 0);
+  line(hook.x, hook.y, mouseX, mouseY);
+  rodHookDist = dist(hook.x, hook.y, mouseX, mouseY);
 }
 
 function fishLineTension(){
