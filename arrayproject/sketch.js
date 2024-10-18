@@ -20,26 +20,29 @@ function setup() {
 
 function draw() {
   background(220);
+
+  fishLine();
   bobber();
+
   // console.log(lineDist);
   console.log(strain)
 }
 
 function bobber() {
-  line(bobberX, bobberY, mouseX, mouseY);
-  lineDist = dist(bobberX, bobberY, mouseX, mouseY);
+  // line(bobberX, bobberY, mouseX, mouseY);
+  // lineDist = dist(bobberX, bobberY, mouseX, mouseY);
   fill(150);
   circle(bobberX, bobberY, 25);
   if (lineDist <= strain){
     gravity++;
-    strain = strain + 0.1;
+    strain = strain + 0.2;
     bobberY = bobberY + gravity * 0.5;
   }
-  else if (lineDist >= strain){
-    gravity--;
-    strain = strain - 0.1;
-    bobberY = strain;
-  }
+  // else if (lineDist >= strain){
+  //   gravity--;
+  //   strain = strain - 0.1;
+  //   bobberY = bobberY + gravity * 0.5;
+  // }
 }
 function mouseClicked(){
   bobberY = mouseY;
@@ -48,4 +51,12 @@ function mouseClicked(){
 }
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
+}
+
+function fishLine (){
+  line(bobberX, bobberY, mouseX, mouseY);
+  lineDist = dist(bobberX, bobberY, mouseX, mouseY);
+}
+function fishLineTension(){
+
 }
