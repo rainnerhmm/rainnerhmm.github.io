@@ -9,12 +9,13 @@
 
 // hook physics
 let hook = {
-  x: 50, // hook x coords
-  y: 50, // hook y coords
+  x: 0, // hook x coords
+  y: 0, // hook y coords
   d: 25, // diameter of hook
   weight: 0, // weight of hook
   resistence: 0, // air resistence
-  velocity: 5, // velocity of hook
+  velocity: 5, // velocity/acceleration of hook
+  state: "falling",
 };
 // resistence/damper; makes the hook not a perpetual motion machine // velocity should be affected by resistance
 // weight; the weight of the "hook" should play into it's resistence
@@ -29,7 +30,9 @@ let hook = {
 let fishLine = {
   dist: 0, // distance from rod (mouse) to hook
   maxLength: 300, // the maximum distance the line can extend without straining
-
+  rodTipX: 0,
+  rodTipY: 0,
+  rodBottom: 0,
 };
 // maximum distance rod can extend // strain should have a threshold rather than a sole number, strain should be able...
 // ...to extend farther than maximum before snapping
@@ -47,19 +50,38 @@ let fishLine = {
 
 // in theory if skilled enough you should be able to bungee almost any fish out of the water in one easy attempt.
 
+// 
+
+let musicVar;
+
+function preload() {
+  soundFormats("mp3"); // setting the sound format
+  musicVar = loadSound("assets/sounds/backgroundMusic.mp3"); // Loads Background Music (Music is 'Tentacular Circus' from the Splatoon Series)
+}
+
+function backgroundMusic() {
+  musicVar.play();
+  musicVar.loop();
+  musicVar.amp(0.3);
+  userStartAudio();
+}
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  backgroundMusic(); // Calls the Background Music function
+  hook.x = width / 2;
+  hook.y = height / 2;
 }
 
 function draw() {
   background(220);
-
   fishLine2();
   hook2();
 
   // console.log(fishLine.dist);
   textSize(48);
-  text(fishLine.dist, width/2, height/2);
+  text(fishLine.dist, width / 2, height / 2);
+  console.log(fishLine.dist);
 }
 
 // 
@@ -67,12 +89,22 @@ function draw() {
 function hook2() {
   fill(150);
   circle(hook.x, hook.y, hook.d);
-  hook.y = hook.y + hook.velocity;
-  hook.velocity++;
-  if (fishLine.maxLength <= fishLine.dist){
-    hook.velocity--;
-    hook.y = hook.y - hook.velocity;
+  fishLine.rodTipX = mouseX;
+  fishLine.rodTipY = mouseY;
+  if (fishLine.dist < fishLine.maxLength) {
+    hook.velocity++;
+    hook.y = hook.y + hook.velocity;
   }
+  else if (fishLine.dist > fishLine.maxLength) {
+    hook.velocity = 0;
+    hook.y = fishLine.rodTipY + fishLine.maxLength;
+  }
+  hook.x = fishLine.rodTipX;
+  // else if (fishLine.dist < fishLine.maxLength) {
+  //   hook.x = fishLine.rodTipX -20;
+  // }
+
+
   // if (fishLine.dist <= fishLine.maxLength){ // going down
   //   hook.velocity++;
   //   fishLine.maxLength = fishLine.maxLength + 0.1;
@@ -83,27 +115,27 @@ function hook2() {
   //   fishLine.maxLength = fishLine.maxLength - 0.1;
   //   hook.y = hook.y + hook.velocity;
   // }
-
 }
-function mouseClicked(){
+
+function mouseClicked() {
   hook.y = mouseY;
   hook.x = mouseX;
-  hook.velocity = 0;
+  hook.velocity = 5;
 }
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
 
-function fishLine2 (){
+function fishLine2() {
   fishLineTension();
-  line(hook.x, hook.y, mouseX, mouseY);
-  fishLine.dist = dist(hook.x, hook.y, mouseX, mouseY);
+  line(hook.x, hook.y, fishLine.rodTipX, fishLine.rodTipY);
+  fishLine.dist = dist(hook.x, hook.y, fishLine.rodTipX, fishLine.rodTipY);
 }
 
-function fishLineTension(){
+function fishLineTension() {
 
   if (fishLine.dist >= fishLine.maxLength) {
-    stroke(fishLine.dist-fishLine.maxLength, 0, 0);
+    stroke(fishLine.dist - fishLine.maxLength, 0, 0);
   }
   else {
     stroke(0, 0, 0);
