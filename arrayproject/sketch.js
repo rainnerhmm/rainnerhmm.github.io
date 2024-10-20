@@ -52,17 +52,17 @@ let fishLine = {
 
 // 
 
-let musicVar;
+let bgMusicLoop;
 
 function preload() {
   soundFormats("mp3"); // setting the sound format
-  musicVar = loadSound("assets/sounds/backgroundMusic.mp3"); // Loads Background Music (Music is 'Tentacular Circus' from the Splatoon Series)
+  bgMusicLoop = loadSound("assets/sounds/backgroundMusic.mp3"); // Loads Background Music 
 }
 
 function backgroundMusic() {
-  musicVar.play();
-  musicVar.loop();
-  musicVar.amp(0.3);
+  bgMusicLoop.play();
+  bgMusicLoop.loop(0, 0, 0, 10);
+  bgMusicLoop.amp(0.3);
   userStartAudio();
 }
 
