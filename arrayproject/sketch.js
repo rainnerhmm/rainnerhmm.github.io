@@ -1,183 +1,175 @@
 // arrayproject
 // Rainn Morphy
 // 10/15/2024
-//
+
 // Extra for Experts:
-// - describe what you did to take this project "above and beyond"
+// - Nothing is truly 'Extra for Experts' with how half-baked everything is, if had my physics had...
+//   ...worked out, possibly I could consider that my 'Extra for Experts', but in it's current state...
+//   ...I believe any 'Extra for Experts' marks is undeserved.
 
-// inspired by https://editor.p5js.org/gabriel.lee/sketches/a1BR-maEV
+// This Project Features 2 objects, accounting various aspects for the physics of the rod and hook...
+// ...and a 1 array accounting for the fishes' circle of life (spawning and despawning)
 
+// ocassionally inspired by https://editor.p5js.org/gabriel.lee/sketches/a1BR-maEV
+
+// variables
 // hook physics
 let hook = {
   x: 0, // hook x coords
   y: 0, // hook y coords
-  d: 25, // diameter of hook
+  d: 25, // diameter of hook (was orginally a circle)
   weight: 0, // weight of hook
   resistence: 0.5, // air resistence
   velocity: 5, // velocity/acceleration of hook
-  state: "falling",
+  image: 0, // the hook graphic
 };
-// resistence/damper; makes the hook not a perpetual motion machine // velocity should be affected by resistance
-// weight; the weight of the "hook" should play into it's resistence
 
-// diameter/radius > weight > resistence > velocity
-
-// if underwater > increase resistence > slows velocity
-
-// if fish attaches > increases weight > increases resistence > slows velocity
-
-// rod/fishing line logic
+// fishing rod and line variables
 let fishLine = {
   dist: 0, // distance from rod (mouse) to hook
   maxLength: 300, // the maximum distance the line can extend without straining
-  rodTipX: 0,
+
+  // the tip of the rod 
+  rodTipX: 0, 
   rodTipY: 0,
-  rodBottom: 0,
+
+  rodBottom: 0, // where your mouse was intended to be on the rod
 };
-// maximum distance rod can extend // strain should have a threshold rather than a sole number, strain should be able...
-// ...to extend farther than maximum before snapping
 
-// if the fish pulls it cause the fishing line to fully extend, putting pressure on the line...
-// two things could happen next!
+let bgMusicLoop; // the global variable for the background music
 
-// 1. small fish
-// small fish will bounce back due to the strength of the fishing line, giving ample opportunity to reel it in...
-// ...if the player reels in the fish before the fish begins to pull the hook, no pressure will be put on the fishing line
+// fish variables
+let fishSchool = []; // the array where spawned fish get added to
+let fishImage; // the fish graphic
+let fishToHookDist; // the distance between the fish and hook
 
-// 2. big fish and/or the "big one"
-// big fish will bounce back momentarily (unless you begin reeling in first), but will put much more pressure on the fishing line...
-// if the line snaps, you will lose money or score and get a new fishing rod.
+let score = 0; // a hastily added score variable
+// would have used an array to make a top 5 leaderboard with more time
 
-// in theory if skilled enough you should be able to bungee almost any fish out of the water in one easy attempt.
-
-let fishSchool = [];
-
-let bgMusicLoop;
-
-let fishImage;
-
-let score = 0;
-
-let fishToHookDist;
-
+// functions
 function preload() {
   soundFormats("mp3"); // setting the sound format
-  bgMusicLoop = loadSound("assets/sounds/backgroundMusic.mp3"); // Loads Background Music 
-  fishImage = loadImage("assets/graphics/dweebus.png");
+  bgMusicLoop = loadSound("assets/sounds/backgroundMusic.mp3"); // preloads background music
+  fishImage = loadImage("assets/graphics/redFishImage.png"); // preloads the fish graphic
+  hook.image = loadImage("assets/graphics/hookImage.png"); // preloads the hook graphic
+  // 'fishImage' is taken from Wii Play by Nintendo
 }
 
-function backgroundMusic() {
-  bgMusicLoop.play();
-  bgMusicLoop.loop(0, 0, 0, 10);
-  bgMusicLoop.amp(0.3);
-  userStartAudio();
-}
+function backgroundMusic() {  // "Let's Go Fishing" from Ultimate Angler/Streetpass Fishing by Nintendo
+  bgMusicLoop.play(); // starts the music
+  bgMusicLoop.loop(0, 0, 0, 10); // attempt to loop without intro
+  bgMusicLoop.amp(0.3); // sets the volume
+
+  // planned to use array to have a 'jukebox' to change music
+} // attempted to seperate intro to song from loop, broken as far as I know
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  backgroundMusic(); // Calls the Background Music function
-  for (let i = 0; i < 10; i++) {
+
+  // obviously heavily referenced from the bubbles demo
+  for (let i = 0; i < 5; i++) { // spawns 10 fish when beginning
     fishSpawn();
   }
-  window.setInterval(fishSpawn, 5000); // spawns
-  hook.x = width / 2;
-  hook.y = height / 2;
+  window.setInterval(fishSpawn, 5000); // spawns the fish every 5 seconds
+  // plan was for the fish to spawn from the sky, swim back and forth, and if in it's radius...
+  // ...attempts to bite.
 }
 
 function draw() {
   background(220);
+
+  // displays score
   textSize(48);
   text(score, width / 2, height / 5);
+
+  // various 'logics' for how the fish line, hook and fish behaviour work
   fishLineLogic();
   hookLogic();
   fishLogic();
 }
 
-function hookLogic() {
-  fill(150);
-  circle(hook.x, hook.y, hook.d);
-  fishLine.rodTipX = mouseX;
-  fishLine.rodTipY = mouseY;
-  if (fishLine.dist < fishLine.maxLength) {
+function hookLogic() { // displays and calculates the hook's physics
+  // displays hook
+  image(hook.image, hook.x, hook.y, hook.d, hook.d); // hook position is off
+
+  fishLine.rodTipX = mouseX; // currently the 'tip' of the rod is the mouse, but originally...
+  fishLine.rodTipY = mouseY; // ...the bottom of the rod was planned to be where the mouse was
+
+  // physics
+  if (fishLine.dist < fishLine.maxLength) { // causes the hook to fall
     hook.velocity++;
     hook.y = hook.y + hook.velocity;
   }
-  else if (fishLine.dist > fishLine.maxLength) {
+
+  else if (fishLine.dist > fishLine.maxLength) { // causes the hook to not continue falling
     hook.velocity = 0;
     hook.y = fishLine.rodTipY + fishLine.maxLength;
   }
-  hook.x = fishLine.rodTipX;
-  // else if (fishLine.dist < fishLine.maxLength) {
-  //   hook.x = fishLine.rodTipX -20;
-  // }
 
-
-  // if (fishLine.dist <= fishLine.maxLength){ // going down
-  //   hook.velocity++;
-  //   fishLine.maxLength = fishLine.maxLength + 0.1;
-  //   hook.y = hook.y + hook.velocity;
-  // }
-  // else if (fishLine.dist >= fishLine.maxLength){ // going up
-  //   hook.velocity--;
-  //   fishLine.maxLength = fishLine.maxLength - 0.1;
-  //   hook.y = hook.y + hook.velocity;
-  // }
+  hook.x = fishLine.rodTipX; // follows the mouses' x position, intended to be effected by resistence
 }
 
-function mouseClicked() {
-  hook.y = mouseY;
-  hook.x = mouseX;
-  hook.velocity = 5;
+function mouseClicked() { // handles starting the background music
+  if (!bgMusicLoop.isPlaying()) {
+    backgroundMusic(); // Calls the Background Music function
+  }
 }
-function windowResized() {
+function windowResized() { // will reposition assets when changing screen size
   resizeCanvas(windowWidth, windowHeight);
 }
 
-function fishLineLogic() {
+function fishLineLogic() { // essentially just the code to connect the line from the hook to the mouse
   fishLineTension();
-  line(hook.x, hook.y, fishLine.rodTipX, fishLine.rodTipY);
+  line(hook.x-5, hook.y, fishLine.rodTipX, fishLine.rodTipY);
   fishLine.dist = dist(hook.x, hook.y, fishLine.rodTipX, fishLine.rodTipY);
 }
 
-function fishLineTension() {
-
+function fishLineTension() { // turns the fish line red if exceeding max length
   if (fishLine.dist >= fishLine.maxLength) {
     stroke(fishLine.dist - fishLine.maxLength, 0, 0);
   }
   else {
     stroke(0, 0, 0);
-  }
+  } // fish were orginally intended to weigh you down, causing tension to the fish line
 }
 
-function fishSpawn() {
+function fishSpawn() { // spawns fish, heavily referenced from bubble demo
   let someFish = {
     x: random(0, width),
     y: height + random(0, 50),
     speed: random(2, 5),
-    timeX: random(100000000),
-    timeY: random(100000000),
+    timeX: random(100000000), // generates numbers for noise on the x axis
+    timeY: random(100000000), // generates numbers for noise on the y axis
     deltaTime: 0.006,
   };
   fishSchool.push(someFish);
 }
 
 
-function fishLogic() {
-  for (let fish of fishSchool) { // moves fish with noise
+function fishLogic() { // various aspects about the fish, heavily referenced from bubble demo
+  // moves fish with noise 
+  for (let fish of fishSchool) {
     fish.x = noise(fish.timeX) * width;
     fish.y = noise(fish.timeY) * height;
 
     fish.timeX += fish.deltaTime;
     fish.timeY += fish.deltaTime;
   }
-  for (fish of fishSchool) { // displays the fish
+
+  // displays the fish
+  for (fish of fishSchool) {
     image(fishImage, fish.x, fish.y);
-  }
-  fishToHookDist = dist(hook.x, hook.y, fish.x, fish.y);
+  } // orignally intended to use array to have a variety of fish
+
+  // fish hit detection (very buggy)
+  fishToHookDist = dist(hook.x, hook.y, fish.x, fish.y); // calculates distance of fish to hook
+
   if (fishToHookDist <= fishImage.width || fishToHookDist <= fishImage.height) {
-    score += 10;
-    let theIndex = fishSchool.indexOf(fish);
-    fishSchool.splice(theIndex, 1);
+    score += 1; // increases score by 1
+
+    // handles life and death of the fish
+    let index = fishSchool.indexOf(fish);
+    fishSchool.splice(index, 1);
   }
 }
 

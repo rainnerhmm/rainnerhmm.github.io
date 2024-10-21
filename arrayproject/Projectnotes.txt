@@ -1,0 +1,53 @@
+I was in over my head, but I had written notes within my code on what I was trying to do, I put it here to clean up the code.
+
+Due to my code not working correctly at the beginning, it sparked an idea for the fishing line to act as a bungee cord...
+...but it was more complicated then what I could achieve within my skills in a week.
+
+I couldn't find anywhere to reference when trying to program what exactly I intended to do, the closest I can think of is, maybe, 'Cut the Rope'?
+But there isn't exactly detailed guides to recreate it, especially when guides for other programming languages (usually game engines) tended to... 
+...rely on in-built physics. (Atleast from what I could find).
+
+The accidental physics that inspired it:
+  // else if (fishLine.dist < fishLine.maxLength) {
+  //   hook.x = fishLine.rodTipX -20;
+  // }
+
+
+  // if (fishLine.dist <= fishLine.maxLength){ // going down
+  //   hook.velocity++;
+  //   fishLine.maxLength = fishLine.maxLength + 0.1;
+  //   hook.y = hook.y + hook.velocity;
+  // }
+  // else if (fishLine.dist >= fishLine.maxLength){ // going up
+  //   hook.velocity--;
+  //   fishLine.maxLength = fishLine.maxLength - 0.1;
+  //   hook.y = hook.y + hook.velocity;
+  // }
+
+Notes about I wanted everything to interact and work:
+// resistence/damper; makes the hook not a perpetual motion machine // velocity should be affected by resistance
+// weight; the weight of the "hook" should play into it's resistence
+
+// diameter/radius > weight > resistence > velocity
+
+// if underwater > increase resistence > slows velocity
+
+// if fish attaches > increases weight > increases resistence > slows velocity
+
+// rod/fishing line logic
+
+// maximum distance rod can extend // strain should have a threshold rather than a sole number, strain should be able...
+// ...to extend farther than maximum before snapping
+
+// if the fish pulls it cause the fishing line to fully extend, putting pressure on the line...
+// two things could happen next!
+
+// 1. small fish
+// small fish will bounce back due to the strength of the fishing line, giving ample opportunity to reel it in...
+// ...if the player reels in the fish before the fish begins to pull the hook, no pressure will be put on the fishing line
+
+// 2. big fish and/or the "big one"
+// big fish will bounce back momentarily (unless you begin reeling in first), but will put much more pressure on the fishing line...
+// if the line snaps, you will lose money or score and get a new fishing rod.
+
+// in theory if skilled enough you should be able to bungee almost any fish out of the water in one easy attempt.
