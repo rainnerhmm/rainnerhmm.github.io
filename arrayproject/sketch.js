@@ -13,7 +13,7 @@ let hook = {
   y: 0, // hook y coords
   d: 25, // diameter of hook
   weight: 0, // weight of hook
-  resistence: 0, // air resistence
+  resistence: 0.5, // air resistence
   velocity: 5, // velocity/acceleration of hook
   state: "falling",
 };
