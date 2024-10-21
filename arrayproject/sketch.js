@@ -50,13 +50,20 @@ let fishLine = {
 
 // in theory if skilled enough you should be able to bungee almost any fish out of the water in one easy attempt.
 
-// 
+let fishSchool = [];
 
 let bgMusicLoop;
+
+let fishImage;
+
+let score = 0;
+
+let fishToHookDist;
 
 function preload() {
   soundFormats("mp3"); // setting the sound format
   bgMusicLoop = loadSound("assets/sounds/backgroundMusic.mp3"); // Loads Background Music 
+  fishImage = loadImage("assets/graphics/dweebus.png");
 }
 
 function backgroundMusic() {
@@ -69,24 +76,24 @@ function backgroundMusic() {
 function setup() {
   createCanvas(windowWidth, windowHeight);
   backgroundMusic(); // Calls the Background Music function
+  for (let i = 0; i < 10; i++) {
+    fishSpawn();
+  }
+  window.setInterval(fishSpawn, 5000); // spawns
   hook.x = width / 2;
   hook.y = height / 2;
 }
 
 function draw() {
   background(220);
-  fishLine2();
-  hook2();
-
-  // console.log(fishLine.dist);
   textSize(48);
-  text(fishLine.dist, width / 2, height / 2);
-  console.log(fishLine.dist);
+  text(score, width / 2, height / 5);
+  fishLineLogic();
+  hookLogic();
+  fishLogic();
 }
 
-// 
-
-function hook2() {
+function hookLogic() {
   fill(150);
   circle(hook.x, hook.y, hook.d);
   fishLine.rodTipX = mouseX;
@@ -126,7 +133,7 @@ function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
 
-function fishLine2() {
+function fishLineLogic() {
   fishLineTension();
   line(hook.x, hook.y, fishLine.rodTipX, fishLine.rodTipY);
   fishLine.dist = dist(hook.x, hook.y, fishLine.rodTipX, fishLine.rodTipY);
@@ -142,4 +149,35 @@ function fishLineTension() {
   }
 }
 
+function fishSpawn() {
+  let someFish = {
+    x: random(0, width),
+    y: height + random(0, 50),
+    speed: random(2, 5),
+    timeX: random(100000000),
+    timeY: random(100000000),
+    deltaTime: 0.006,
+  };
+  fishSchool.push(someFish);
+}
+
+
+function fishLogic() {
+  for (let fish of fishSchool) { // moves fish with noise
+    fish.x = noise(fish.timeX) * width;
+    fish.y = noise(fish.timeY) * height;
+
+    fish.timeX += fish.deltaTime;
+    fish.timeY += fish.deltaTime;
+  }
+  for (fish of fishSchool) { // displays the fish
+    image(fishImage, fish.x, fish.y);
+  }
+  fishToHookDist = dist(hook.x, hook.y, fish.x, fish.y);
+  if (fishToHookDist <= fishImage.width || fishToHookDist <= fishImage.height) {
+    score += 10;
+    let theIndex = fishSchool.indexOf(fish);
+    fishSchool.splice(theIndex, 1);
+  }
+}
 
