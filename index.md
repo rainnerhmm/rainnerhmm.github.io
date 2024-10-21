@@ -7,5 +7,5 @@
 - [balls that bounce](bouncyballs)
 - [translate n' rotate](translaterotate)
 ## projects
-- [rocks! papers!! scissors!!! interactive scene](interactivescene)
-- [array'd](arrayproject)
+- [rocks! papers!! scissors!!! | interactive scene](interactivescene)
+- [hook 'em! a fishing game | objects and the array'd](arrayproject)
