@@ -30,7 +30,7 @@ let fishLine = {
   maxLength: 300, // the maximum distance the line can extend without straining
 
   // the tip of the rod 
-  rodTipX: 0, 
+  rodTipX: 0,
   rodTipY: 0,
 
   rodBottom: 0, // where your mouse was intended to be on the rod
@@ -46,13 +46,18 @@ let fishToHookDist; // the distance between the fish and hook
 let score = 0; // a hastily added score variable
 // would have used an array to make a top 5 leaderboard with more time
 
+let gameState = 'title'; // switches to title state and playing state
+let titleImage; // the title graphic
+let clickCounter = 0; // to activate music without changing 'gameState'
+
 // functions
 function preload() {
   soundFormats("mp3"); // setting the sound format
   bgMusicLoop = loadSound("assets/sounds/backgroundMusic.mp3"); // preloads background music
   fishImage = loadImage("assets/graphics/redFishImage.png"); // preloads the fish graphic
   hook.image = loadImage("assets/graphics/hookImage.png"); // preloads the hook graphic
-  // 'fishImage' is taken from Wii Play by Nintendo
+  titleImage = loadImage("assets/graphics/titleImage.png"); // preloads the title graphic
+  // 'fishImage' and 'hook.image' are taken from Wii Play by Nintendo
 }
 
 function backgroundMusic() {  // "Let's Go Fishing" from Ultimate Angler/Streetpass Fishing by Nintendo
@@ -77,15 +82,19 @@ function setup() {
 
 function draw() {
   background(220);
+  textSize(48); // sets text size
+  textFont('Comic Sans MS'); // sets text font
 
-  // displays score
-  textSize(48);
-  text(score, width / 2, height / 5);
-
-  // various 'logics' for how the fish line, hook and fish behaviour work
+  if (gameState === 'playing') {
+    text(score, width / 2, height / 5); // displays score
+    fishLogic();
+  }
+  else {
+    image(titleImage, width / 2, height / 5); // displays title graphic
+    text("click your mouse", width / 6, height / 2); // displays title prompt
+  }
   fishLineLogic();
   hookLogic();
-  fishLogic();
 }
 
 function hookLogic() { // displays and calculates the hook's physics
@@ -110,8 +119,12 @@ function hookLogic() { // displays and calculates the hook's physics
 }
 
 function mouseClicked() { // handles starting the background music
+  clickCounter += 1;
   if (!bgMusicLoop.isPlaying()) {
     backgroundMusic(); // Calls the Background Music function
+  }
+  if (clickCounter === 2) {
+    gameState = 'playing';
   }
 }
 function windowResized() { // will reposition assets when changing screen size
@@ -120,7 +133,7 @@ function windowResized() { // will reposition assets when changing screen size
 
 function fishLineLogic() { // essentially just the code to connect the line from the hook to the mouse
   fishLineTension();
-  line(hook.x-5, hook.y, fishLine.rodTipX, fishLine.rodTipY);
+  line(hook.x - 5, hook.y, fishLine.rodTipX, fishLine.rodTipY);
   fishLine.dist = dist(hook.x, hook.y, fishLine.rodTipX, fishLine.rodTipY);
 }
 
