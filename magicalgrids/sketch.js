@@ -1,9 +1,6 @@
-// Project Title
-// Your Name
-// Date
-//
-// Extra for Experts:
-// - describe what you did to take this project "above and beyond"
+// the magical 2D arrays demo
+// Oct 22nd, 2024
+
 
 // if hardcoding grid, use this:
 
@@ -15,8 +12,8 @@
 // ];
 
 let magicalGrid;
-const GRID_SIZE = 4;
-let cellSize;
+const MAGICAL_GRID_SIZE = 4;
+let magicalCellSize;
 
 function setup() {
   if (windowWidth < windowHeight) {
@@ -25,8 +22,8 @@ function setup() {
   else {
     createCanvas(windowHeight, windowHeight);
   }
-  cellSize = height / GRID_SIZE;
-  magicalGrid = summonRandomMagicalGrid(GRID_SIZE, GRID_SIZE);
+  magicalCellSize = height / MAGICAL_GRID_SIZE;
+  magicalGrid = summonRandomMagicalGrid(MAGICAL_GRID_SIZE, MAGICAL_GRID_SIZE);
 }
 
 function draw() {
@@ -36,23 +33,23 @@ function draw() {
 
 function keyPressed() {
   if (key === "r") {
-    magicalGrid = summonRandomMagicalGrid(GRID_SIZE, GRID_SIZE);
+    magicalGrid = summonRandomMagicalGrid(MAGICAL_GRID_SIZE, MAGICAL_GRID_SIZE);
   }
   if (key === "e") {
-    magicalGrid = summonEmptyMagicalGrid(GRID_SIZE, GRID_SIZE);
+    magicalGrid = summonEmptyMagicalGrid(MAGICAL_GRID_SIZE, MAGICAL_GRID_SIZE);
   }
 }
 
 function magicalGridDisplayer() {
-  for (let y = 0; y < GRID_SIZE; y++) {
-    for (let x = 0; x < GRID_SIZE; x++) {
+  for (let y = 0; y < MAGICAL_GRID_SIZE; y++) {
+    for (let x = 0; x < MAGICAL_GRID_SIZE; x++) {
       if (magicalGrid[y][x] === 1) {
         fill("black");
       }
       else if (magicalGrid[y][x] === 0) {
         fill("white");
       }
-      square(x * cellSize, y * cellSize, cellSize);
+      square(x * magicalCellSize, y * magicalCellSize, magicalCellSize);
     }
   }
 }
