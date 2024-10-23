@@ -19,7 +19,7 @@ function setup() {
 }
 
 function draw() {
-  background(220)
+  background(220);
   if (state === "start") {
     startTheScreen(); // displays 'start' screen
   }
@@ -38,7 +38,7 @@ function mousePressed() {
 function startTheScreen() {
   textAlign(CENTER, CENTER);
   textSize(30);
-  text("click to start the demo", width / 2, height / 2) // displays 'start' screen text
+  text("click to start the demo", width / 2, height / 2); // displays 'start' screen text
 }
 
 function keyPressed(event) {
@@ -84,19 +84,19 @@ function schmovinSquares() { // moves the square
   if (theSquare.mode === "allRange") { // will give 4-directional movement to the user
     if (keyIsPressed === true) {
       if (key === "w") {
-        theSquare.y -= theSquare.speed
+        theSquare.y -= theSquare.speed;
       }
 
       else if (key === "s") {
-        theSquare.y += theSquare.speed
+        theSquare.y += theSquare.speed;
       }
 
       else if (key === "a") {
-        theSquare.x -= theSquare.speed
+        theSquare.x -= theSquare.speed;
       }
 
       else if (key === "d") {
-        theSquare.x += theSquare.speed
+        theSquare.x += theSquare.speed;
       }
     }
   }
