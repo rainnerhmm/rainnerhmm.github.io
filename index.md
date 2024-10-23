@@ -14,5 +14,5 @@
 - [the magical grids that they grid on](magicalgrids)
 
 ## projects
-- ['rocks! papers!! scissors!!!' interactive scene](https://github.com/rainnerhmm/rockspapersscissors-js/tree/56cda22bf458505303520fcf47385f278fa8aeff/interactivescene)
-- ['hook 'em! a fishing game' objects and the array'd](arrayproject)
+- ['rocks! papers!! scissors!!!' interactive scene](https://rainnerhmm.github.io/rockspapersscissors-js/interactivescene/)
+- ['hook 'em! a fishing game' objects and the array'd](https://rainnerhmm.github.io/javascript-fishing/arrayproject/)
