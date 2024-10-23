@@ -2,7 +2,7 @@
 
 ## demos
 - [schmovin' square](movingsquare)
-- [imaging the hotdog](imagedemo)
+- [imaging the hotdog](imaging)
 - [trafficlighting](trafficlighting)
 - [balls that bounce](bouncyballs)
 - generative art
