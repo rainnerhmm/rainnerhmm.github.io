@@ -14,6 +14,6 @@ function setup() {
 function draw() {
   background(220);
   
-  // displaying the hotdog, moves with mouse, and is half it's size
+  // displays the hotdog, moves it with the mouse, and is scaled to half its normal size
   image(hotdog, mouseX, mouseY, hotdog.width * 0.5, hotdog.height * 0.5)
 }
