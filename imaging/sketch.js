@@ -4,7 +4,7 @@
 let hotdog;
 
 function preload() {
-  hotdog = loadImage("hotdog.jpg") // Copied from relative path
+  hotdog = loadImage("hotdog.jpg"); // Copied from relative path
 }
 
 function setup() {
@@ -15,5 +15,5 @@ function draw() {
   background(220);
   
   // displays the hotdog, moves it with the mouse, and is scaled to half its normal size
-  image(hotdog, mouseX, mouseY, hotdog.width * 0.5, hotdog.height * 0.5)
+  image(hotdog, mouseX, mouseY, hotdog.width * 0.5, hotdog.height * 0.5);
 }
