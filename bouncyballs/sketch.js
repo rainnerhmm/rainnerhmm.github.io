@@ -1,17 +1,20 @@
-// balls that bounce
+// arrays and objects demo
 // Rainn Morphy
-// October 10th, 2024
-let ballstiplied = [];
+// Oct 10th, 2024
+
+let ballstiplied = []; // an array of balls
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  for (let i = 0; i < 100000; i++){
+  for (let i = 0; i < 10; i++){
     spawnballs(width/2, height/2);
   }
 }
 
 function draw() {
-  background(255);
+  background(220);
+
+  // code of balls
   for (let someballs of ballstiplied) {
     // moves your balls
     someballs.x += someballs.dx;
@@ -31,25 +34,22 @@ function draw() {
     circle(someballs.x, someballs.y, someballs.radness * 2);
   }
 }
-function spawnballs(theX, theY){
-  let balls = {
-    x: theX,
-    y: theY,
-    radness: random(30,70),
-    dx: random(-5, 5),
-    dy: random(-5, 5),
-    red: random(0,255),
-    green: random(0, 255),
-    blue: random(0,255),
-    alpha: random(0, 255),
-  };
-  ballstiplied.push(balls);
-}
 
 function mousePressed(){
   spawnballs(mouseX, mouseY);
 }
 
-function windowResized(){
-  resizeCanvas(windowWidth, windowHeight);
+function spawnballs(theX, theY){
+  let balls = {
+    x: theX,
+    y: theY,
+    radness: random(30,70), // radius
+    dx: random(-5, 5), // random direction on the x axis
+    dy: random(-5, 5), // random direction on the y axis
+    red: random(0,255),
+    green: random(0, 255),
+    blue: random(0,255),
+    alpha: random(0, 255), // transparency of the balls
+  };
+  ballstiplied.push(balls);
 }
