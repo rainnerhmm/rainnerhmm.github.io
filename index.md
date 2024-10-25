@@ -10,7 +10,7 @@
 - [worlds worst controlled intersection](d03-trafficlighting)
 - [balls that bounce](d04-bouncyballs)
 - [a pattern enthusiasts paradise](d05-patterntiles)
-- perlin noise ball
+- [catch that snitch](d06-noisegen)
 - terrain generation
 - bubble object demo
 - sfx demo
