@@ -2,7 +2,7 @@
 // Rainn Morphy
 // Oct 4, 2024
 
-const TILESIZE = 10; // detail of the pattern
+const TILESIZE = 20; // detail of the pattern
 let bagOfTiles = []; // an array of tiles/slopes
 
 function setup() {
