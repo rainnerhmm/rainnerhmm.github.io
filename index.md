@@ -7,9 +7,9 @@
 ## demos
 - [schmovin' square](movingsquare)
 - [imaging the hotdog](imaging)
-- [world's worst controlled intersection](trafficlighting)
+- [worlds worst controlled intersection](trafficlighting)
 - [balls that bounce](bouncyballs)
-- generative art
+- [a slope enthusiasts paradise](generativeart)
 - perlin noise ball
 - terrain generation
 - bubble object demo
