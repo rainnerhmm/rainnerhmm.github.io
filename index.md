@@ -11,7 +11,7 @@
 - [balls that bounce](d04-bouncyballs)
 - [a pattern enthusiasts paradise](d05-patterntiles)
 - [certified snitch behaviours](d06-noisegen)
-- terrain generation
+- [terraformers' noisegen in disguise](d07-terraformers)
 - bubble object demo
 - sfx demo
 - [translate n' rotate](d10-translaterotate)
