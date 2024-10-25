@@ -16,6 +16,7 @@
 - sfx demo
 - [translate n' rotate](d10-translaterotate)
 - [the magical grids that they grid on](d11-magicalgrids)
+- [the conwaysgames' to kill a gridperson](d12-conwaysgame)
 
 ## other repositories
 - [rocks! papers!! scissors!!!](https://rainnerhmm.github.io/rockspapersscissors-js/interactivescene/)

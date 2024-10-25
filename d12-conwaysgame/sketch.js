@@ -1,20 +1,27 @@
-// the magical 2D arrays demo
-// Oct 22nd, 2024
+// conways' game of life demo
+// Oct 25th, 2024
 
 
 // if hardcoding grid, use this:
 
-// let magicalgrid = [
+// let conwaysgrid = [
 //   [1, 0, 1, 0],
 //   [0, 0, 1, 1],
 //   [1, 1, 1, 0],
 //   [0, 1, 1, 0],
 // ];
 
-let magicalGrid;
-const MAGICAL_GRID_SIZE = 16;
-let magicalCellSize;
-let magicalNeighbourToggler = true;
+let conwaysGrid;
+const CONWAYS_GRID_SIZE = 40;
+let conwaysCellSize;
+let conwaysNeighbourToggler = false;
+let conwaysAutoplay = false;
+let conwaysFrameMultiplier = 5;
+let conwaysGospergun;
+
+function preload() {
+  conwaysGospergun = loadJSON("gosper.json")
+}
 
 function setup() {
   if (windowWidth < windowHeight) {
@@ -23,8 +30,8 @@ function setup() {
   else {
     createCanvas(windowHeight, windowHeight);
   }
-  magicalCellSize = height / MAGICAL_GRID_SIZE;
-  magicalGrid = summonRandomMagicalGrid(MAGICAL_GRID_SIZE, MAGICAL_GRID_SIZE);
+  conwaysCellSize = height / CONWAYS_GRID_SIZE;
+  conwaysGrid = summonRandomConwaysGrid(CONWAYS_GRID_SIZE, CONWAYS_GRID_SIZE);
 }
 
 function windowResized() {
@@ -34,69 +41,120 @@ function windowResized() {
   else {
     resizeCanvas(windowHeight, windowHeight);
   }
-  magicalCellSize = height / MAGICAL_GRID_SIZE;
+  conwaysCellSize = height / CONWAYS_GRID_SIZE;
 }
 
 function draw() {
   background(220);
-  magicalGridDisplayer();
+  // conwaysGrid = conwaysGridUpdater();
+  conwaysGridDisplayer();
 }
 
 function mousePressed() {
-  let x = Math.floor(mouseX / magicalCellSize);
-  let y = Math.floor(mouseY / magicalCellSize);
+  let x = Math.floor(mouseX / conwaysCellSize);
+  let y = Math.floor(mouseY / conwaysCellSize);
 
   // toggle self
-  magicalCellToggle(x, y);
+  conwaysCellToggle(x, y);
 
   // toggle neighbours
-  if (magicalNeighbourToggler) {
-    magicalCellToggle(x + 1, y);
-    magicalCellToggle(x - 1, y);
-    magicalCellToggle(x, y + 1);
-    magicalCellToggle(x, y - 1);
+  if (conwaysNeighbourToggler) {
+    conwaysCellToggle(x + 1, y);
+    conwaysCellToggle(x - 1, y);
+    conwaysCellToggle(x, y + 1);
+    conwaysCellToggle(x, y - 1);
   }
 }
 
-function magicalCellToggle(x, y) {
+function conwaysCellToggle(x, y) {
   // make sure the cell you're toggling is in the grid
-  if (x >= 0 && y >= 0 && x < MAGICAL_GRID_SIZE && y < MAGICAL_GRID_SIZE) {
-    if (magicalGrid[y][x] === 1) {
-      magicalGrid[y][x] = 0;
+  if (x >= 0 && y >= 0 && x < CONWAYS_GRID_SIZE && y < CONWAYS_GRID_SIZE) {
+    if (conwaysGrid[y][x] === 1) {
+      conwaysGrid[y][x] = 0;
     }
     else {
-      magicalGrid[y][x] = 1;
+      conwaysGrid[y][x] = 1;
     }
   }
 }
 
 function keyPressed() {
   if (key === "r") {
-    magicalGrid = summonRandomMagicalGrid(MAGICAL_GRID_SIZE, MAGICAL_GRID_SIZE);
+    conwaysGrid = summonRandomConwaysGrid(CONWAYS_GRID_SIZE, CONWAYS_GRID_SIZE);
   }
   if (key === "e") {
-    magicalGrid = summonEmptyMagicalGrid(MAGICAL_GRID_SIZE, MAGICAL_GRID_SIZE);
+    conwaysGrid = summonEmptyConwaysGrid(CONWAYS_GRID_SIZE, CONWAYS_GRID_SIZE);
   }
   if (key === "n") {
-    magicalNeighbourToggler = !magicalNeighbourToggler;
+    conwaysNeighbourToggler = !conwaysNeighbourToggler;
+  }
+  if (key === " ") {
+    conwaysGrid = conwaysGridUpdater();
   }
 }
 
-function magicalGridDisplayer() {
-  for (let y = 0; y < MAGICAL_GRID_SIZE; y++) {
-    for (let x = 0; x < MAGICAL_GRID_SIZE; x++) {
-      if (magicalGrid[y][x] === 1) {
+function conwaysGridUpdater() {
+  // make a new array to hold the next turn
+  let nextConwaysTurn = summonEmptyConwaysGrid(CONWAYS_GRID_SIZE, CONWAYS_GRID_SIZE);
+
+  // look at every conways cell
+  for (let y = 0; y < CONWAYS_GRID_SIZE; y++) {
+    for (let x = 0; x < CONWAYS_GRID_SIZE; x++) {
+      // count its neighbours
+      let conwaysNeighbours = 0;
+
+      for (let i = -1; i <= 1; i++) {
+        for (let j = -1; j <= 1; j++) {
+          if (y + i >= 0 && y + i < CONWAYS_GRID_SIZE && x + j >= 0 && x + j < CONWAYS_GRID_SIZE) {
+            // don't fall off the edge
+            conwaysNeighbours += conwaysGrid[y + i][x + j];
+          }
+        }
+      }
+
+      // don't count yourself
+      conwaysNeighbours -= conwaysGrid[y][x];
+
+      // apply the rules of conways game
+      if (conwaysGrid[y][x] === 0) {
+        // currently dead
+        if (conwaysNeighbours === 3) {
+          nextConwaysTurn[y][x] = 1;
+        }
+        else {
+          nextConwaysTurn[y][x] = 0;
+        }
+      }
+
+      if (conwaysGrid[y][x] === 1) {
+        if (conwaysNeighbours === 2 || conwaysNeighbours === 3) {
+          // currently alive
+          nextConwaysTurn[y][x] = 1;
+        }
+        else {
+          nextConwaysTurn[y][x] = 0;
+        }
+      }
+    }
+  }
+  return nextConwaysTurn;
+}
+
+function conwaysGridDisplayer() {
+  for (let y = 0; y < CONWAYS_GRID_SIZE; y++) {
+    for (let x = 0; x < CONWAYS_GRID_SIZE; x++) {
+      if (conwaysGrid[y][x] === 1) {
         fill("black");
       }
-      else if (magicalGrid[y][x] === 0) {
+      else if (conwaysGrid[y][x] === 0) {
         fill("white");
       }
-      square(x * magicalCellSize, y * magicalCellSize, magicalCellSize);
+      square(x * conwaysCellSize, y * conwaysCellSize, conwaysCellSize);
     }
   }
 }
 
-function summonRandomMagicalGrid(cols, rows) {
+function summonRandomConwaysGrid(cols, rows) {
   let newGrid = [];
   for (let y = 0; y < rows; y++) {
     newGrid.push([]);
@@ -113,7 +171,7 @@ function summonRandomMagicalGrid(cols, rows) {
   return newGrid;
 }
 
-function summonEmptyMagicalGrid(cols, rows) {
+function summonEmptyConwaysGrid(cols, rows) {
   let newGrid = [];
   for (let y = 0; y < rows; y++) {
     newGrid.push([]);
