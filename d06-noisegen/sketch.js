@@ -30,6 +30,6 @@ function draw() {
   fill("yellow");
   circle(snitch.x, snitch.y, SNITCH_SIZE);
 
-  // snitch timer
-  snitch.time += 0.01;
+  // snitch timer/speed
+  snitch.time += 0.05;
 }
