@@ -3,7 +3,7 @@
 ## demos
 - [schmovin' square](movingsquare)
 - [imaging the hotdog](imaging)
-- [trafficlighting](trafficlighting)
+- [world's worst controlled intersection](trafficlighting)
 - [balls that bounce](bouncyballs)
 - generative art
 - perlin noise ball
