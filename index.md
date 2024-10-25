@@ -12,7 +12,7 @@
 - [a pattern enthusiasts paradise](d05-patterntiles)
 - [certified snitch behaviours](d06-noisegen)
 - [terraformers' noisegen in disguise](d07-terraformers)
-- bubble object demo
+- [bubble murder party](d08-bubblepop)
 - sfx demo
 - [translate n' rotate](d10-translaterotate)
 - [the magical grids that they grid on](d11-magicalgrids)
