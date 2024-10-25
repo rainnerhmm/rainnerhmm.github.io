@@ -1,15 +1,15 @@
 # compsci thirty
 
 ## projects
-- ['rocks! papers!! scissors!!!' interactive scene](p1-interactiveproject)
-- ['hook 'em! a fishing game' objects and the array'd](p2-arraysobjects)
+- ['rocks! papers!! scissors!!!' interactive scene](p01-interactiveproject)
+- ['hook 'em! a fishing game' objects and the array'd](p02-arraysobjects)
 
 ## demos
-- [schmovin' square](d1-movingsquare)
-- [imaging the hotdog](d2-imaging)
-- [worlds worst controlled intersection](d3-trafficlighting)
-- [balls that bounce](d4-bouncyballs)
-- [a slope enthusiasts paradise](d5-patterntiles)
+- [schmovin' square](d01-movingsquare)
+- [imaging the hotdog](d02-imaging)
+- [worlds worst controlled intersection](d03-trafficlighting)
+- [balls that bounce](d04-bouncyballs)
+- [a slope enthusiasts paradise](d05-patterntiles)
 - perlin noise ball
 - terrain generation
 - bubble object demo
