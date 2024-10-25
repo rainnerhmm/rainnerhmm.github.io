@@ -9,7 +9,7 @@
 - [imaging the hotdog](d02-imaging)
 - [worlds worst controlled intersection](d03-trafficlighting)
 - [balls that bounce](d04-bouncyballs)
-- [a slope enthusiasts paradise](d05-patterntiles)
+- [a pattern enthusiasts paradise](d05-patterntiles)
 - perlin noise ball
 - terrain generation
 - bubble object demo
