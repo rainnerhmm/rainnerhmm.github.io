@@ -1,7 +1,7 @@
 # compsci thirty
 
 ## projects
-- ['rocks! papers!! scissors!!!' interactive scene](p01-interactiveproject)
+- ['rocks! papers!! scissors!!!' interactive scene](p01-interactivescene)
 - ['hook 'em! a fishing game' objects and the array'd](p02-arraysobjects)
 
 ## demos
