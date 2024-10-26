@@ -16,7 +16,7 @@ its my personal github thing
 - [certified snitch behaviours](d06-noisegen)
 - [terraformers' noisegen in disguise](d07-terraformers)
 - [bubble murder party](d08-bubblepop)
-- [sfx demo](d09-sounding)
+- [sounding all night long](d09-sounding)
 - [translate n' rotate](d10-translaterotate)
 - [the magical grids that they grid on](d11-magicalgrids)
 - [the conwaysgames' to kill a gridperson](d12-conwaysgame)
