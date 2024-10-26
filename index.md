@@ -21,7 +21,7 @@ its my personal github thing
 - [the magical grids that they grid on](d11-magicalgrids)
 - [the conwaysgames' to kill a gridperson](d12-conwaysgame)
 
-### other repositories
+### repositories
 - [rocks! papers!! scissors!!!](https://rainnerhmm.github.io/rockspapersscissors-js/interactivescene/)
 - [hook 'em! a fishing game](https://rainnerhmm.github.io/javascript-fishing/arrayproject/)
 
