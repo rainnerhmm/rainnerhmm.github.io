@@ -25,3 +25,5 @@ its my personal github thing
 - [rocks! papers!! scissors!!!](https://rainnerhmm.github.io/rockspapersscissors-js/interactivescene/)
 - [hook 'em! a fishing game](https://rainnerhmm.github.io/javascript-fishing/arrayproject/)
 
+## compsci twenty
+
