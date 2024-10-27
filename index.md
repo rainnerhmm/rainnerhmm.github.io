@@ -22,7 +22,7 @@ its my personal github thing
 - [bubble murder party](d08-bubblepop)
 - [sounding all night long](d09-sounding)
 - [translate n' rotate](d10-translaterotate)
-- [the magical grids that they grid on](d11-magicalgrids)
+- [magical grids that they grid on](d11-magicalgrids)
 - [the conwaysgames' to kill a gridperson](d12-conwaysgame)
 
 ### repositories
