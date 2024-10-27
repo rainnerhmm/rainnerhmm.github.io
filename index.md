@@ -1,7 +1,3 @@
----
-title-heading: false
----
-
 # rainners super cool github
 its my personal github thing 
 
@@ -10,6 +6,7 @@ its my personal github thing
 ### projects
 - ['rocks! papers!! scissors!!!' interactive scene](p01-interactivescene)
 - ['hook 'em! a fishing game' objects and the array'd](p02-arraysobjects)
+- [gridsgrids and more grids](p03-gridbased)
 
 ### demos
 - [schmovin' square](d01-movingsquare)
