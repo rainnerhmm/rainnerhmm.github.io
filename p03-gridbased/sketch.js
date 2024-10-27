@@ -2,6 +2,9 @@
 // Rainn Morphy
 // Oct 26, 2024
 
+// Due:
+// Nov 8, 2024
+
 // For this assignment, you will build a game/simulation that includes 2D Arrays.
  
 // You can make whatever you want -- in the end, so long as you use a two-dimensional array in your project,
