@@ -1,26 +1,17 @@
 // conways' game of life demo
+// Rainn Morphy
 // Oct 25th, 2024
-
-
-// if hardcoding grid, use this:
-
-// let conwaysgrid = [
-//   [1, 0, 1, 0],
-//   [0, 0, 1, 1],
-//   [1, 1, 1, 0],
-//   [0, 1, 1, 0],
-// ];
 
 let conwaysGrid;
 const CONWAYS_GRID_SIZE = 40;
 let conwaysCellSize;
-let conwaysNeighbourToggler = false;
+
 let conwaysAutoplay = false;
 let conwaysFrameMultiplier = 5;
-let conwaysGospergun;
+let gospersConwayGun;
 
 function preload() {
-  conwaysGospergun = loadJSON("gosper.json")
+  gospersConwayGun = loadJSON("assets/gosper.json");
 }
 
 function setup() {
@@ -31,7 +22,7 @@ function setup() {
     createCanvas(windowHeight, windowHeight);
   }
   conwaysCellSize = height / CONWAYS_GRID_SIZE;
-  conwaysGrid = summonRandomConwaysGrid(CONWAYS_GRID_SIZE, CONWAYS_GRID_SIZE);
+  conwaysGrid = conwaysRandomGrid(CONWAYS_GRID_SIZE, CONWAYS_GRID_SIZE);
 }
 
 function windowResized() {
@@ -46,28 +37,22 @@ function windowResized() {
 
 function draw() {
   background(220);
-  // conwaysGrid = conwaysGridUpdater();
+  if (conwaysAutoplay && frameCount % conwaysFrameMultiplier === 0) {
+    conwaysGrid = conwaysGridUpdater();
+  }
   conwaysGridDisplayer();
 }
 
 function mousePressed() {
+  // rounds integer down
   let x = Math.floor(mouseX / conwaysCellSize);
   let y = Math.floor(mouseY / conwaysCellSize);
 
-  // toggle self
-  conwaysCellToggle(x, y);
-
-  // toggle neighbours
-  if (conwaysNeighbourToggler) {
-    conwaysCellToggle(x + 1, y);
-    conwaysCellToggle(x - 1, y);
-    conwaysCellToggle(x, y + 1);
-    conwaysCellToggle(x, y - 1);
-  }
+  conwaysCellToggle(x, y); // toggle self
 }
 
 function conwaysCellToggle(x, y) {
-  // make sure the cell you're toggling is in the grid
+  // makes sure the cell you're toggling is in the grid
   if (x >= 0 && y >= 0 && x < CONWAYS_GRID_SIZE && y < CONWAYS_GRID_SIZE) {
     if (conwaysGrid[y][x] === 1) {
       conwaysGrid[y][x] = 0;
@@ -80,22 +65,25 @@ function conwaysCellToggle(x, y) {
 
 function keyPressed() {
   if (key === "r") {
-    conwaysGrid = summonRandomConwaysGrid(CONWAYS_GRID_SIZE, CONWAYS_GRID_SIZE);
+    conwaysGrid = conwaysRandomGrid(CONWAYS_GRID_SIZE, CONWAYS_GRID_SIZE); // creates random grid
   }
   if (key === "e") {
-    conwaysGrid = summonEmptyConwaysGrid(CONWAYS_GRID_SIZE, CONWAYS_GRID_SIZE);
-  }
-  if (key === "n") {
-    conwaysNeighbourToggler = !conwaysNeighbourToggler;
+    conwaysGrid = conwaysEmptyGrid(CONWAYS_GRID_SIZE, CONWAYS_GRID_SIZE); // empties grid
   }
   if (key === " ") {
-    conwaysGrid = conwaysGridUpdater();
+    conwaysGrid = conwaysGridUpdater(); // updates grid frame-by-frame
+  }
+  if (key === "a") {
+    conwaysAutoplay = !conwaysAutoplay; // automatically updates grid 5 frames per second
+  }
+  if (key === "g") {
+    conwaysGrid = gospersConwayGun; // opens gospergun from '.json' file
   }
 }
 
 function conwaysGridUpdater() {
   // make a new array to hold the next turn
-  let nextConwaysTurn = summonEmptyConwaysGrid(CONWAYS_GRID_SIZE, CONWAYS_GRID_SIZE);
+  let nextConwaysTurn = conwaysEmptyGrid(CONWAYS_GRID_SIZE, CONWAYS_GRID_SIZE);
 
   // look at every conways cell
   for (let y = 0; y < CONWAYS_GRID_SIZE; y++) {
@@ -141,8 +129,11 @@ function conwaysGridUpdater() {
 }
 
 function conwaysGridDisplayer() {
+  // creates every square within the grid
   for (let y = 0; y < CONWAYS_GRID_SIZE; y++) {
     for (let x = 0; x < CONWAYS_GRID_SIZE; x++) {
+
+      // updates grid color between black and white/on and off states
       if (conwaysGrid[y][x] === 1) {
         fill("black");
       }
@@ -154,7 +145,8 @@ function conwaysGridDisplayer() {
   }
 }
 
-function summonRandomConwaysGrid(cols, rows) {
+function conwaysRandomGrid(cols, rows) {
+  // creates randomly generated grid
   let newGrid = [];
   for (let y = 0; y < rows; y++) {
     newGrid.push([]);
@@ -171,7 +163,8 @@ function summonRandomConwaysGrid(cols, rows) {
   return newGrid;
 }
 
-function summonEmptyConwaysGrid(cols, rows) {
+function conwaysEmptyGrid(cols, rows) {
+  // empties grid to completely white state
   let newGrid = [];
   for (let y = 0; y < rows; y++) {
     newGrid.push([]);
