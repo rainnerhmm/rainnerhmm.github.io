@@ -109,6 +109,7 @@ function moveGuy(x, y) {
     // keep track of player location
     guy.x = x;
     guy.y = y;
+
     // put player in grid
     grid[guy.y][guy.x] = GUYTILE;
   }
@@ -117,12 +118,15 @@ function moveGuy(x, y) {
 function gridDisplayer() {
   for (let y = 0; y < GRIDSIZE; y++) {
     for (let x = 0; x < GRIDSIZE; x++) {
+      // displays grass
       if (grid[y][x] === CLOSEDTILE) {
         image(grassImg, x * cellSize, y * cellSize, cellSize, cellSize);
       }
+      // displays gravel
       else if (grid[y][x] === OPENTILE) {
         image(gravelImg, x * cellSize, y * cellSize, cellSize, cellSize);
       }
+      // displays players
       else if (grid[y][x] === GUYTILE) {
         fill("gold");
         square(x * cellSize, y * cellSize, cellSize);
