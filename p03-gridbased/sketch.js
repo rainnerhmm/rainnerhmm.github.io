@@ -17,6 +17,10 @@
 
 // Extra for Experts:
 
+let player = {
+  x: 0,
+  y: 0,
+};
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
