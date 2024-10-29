@@ -21,7 +21,8 @@ its my personal github thing
 - [translate n' rotate](d10-translaterotate)
 - [magical grids that they grid on](d11-magicalgrids)
 - [the conwaysgames' to kill a gridperson](d12-conwaysgame)
-- [grids explode in bloody red](d13-rectangrids)
+- [rectangrids explode](d13-rectangrids)
+- [guy versus the gridbased lawn](d14-gridstuck)
 
 ### repositories
 - [rocks! papers!! scissors!!!](https://rainnerhmm.github.io/rockspapersscissors-js/interactivescene/)
