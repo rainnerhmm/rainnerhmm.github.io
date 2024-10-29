@@ -1,20 +1,28 @@
-// the magical 2D arrays demo
-// Oct 22nd, 2024
+// grid-based movement demo
+// Oct 29nd, 2024
 
+let grid;
+const GRIDSIZE = 16;
+let cellSize;
 
-// if hardcoding grid, use this:
+// constants for tiles, rather than hardcoding
+const OPENTILE = 0;
+const CLOSEDTILE = 1;
 
-// let magicalgrid = [
-//   [1, 0, 1, 0],
-//   [0, 0, 1, 1],
-//   [1, 1, 1, 0],
-//   [0, 1, 1, 0],
-// ];
+// player tilevalue and location
+const GUYTILE = 9; // number is non-important, just needs to be different from 1 and 0
+let guy = {
+  x: 0,
+  y: 0,
+};
 
-let magicalGrid;
-const MAGICAL_GRID_SIZE = 16;
-let magicalCellSize;
-let magicalNeighbourToggler = true;
+function preload() {
+  // https://opengameart.org/content/grass-texture-0
+  grassImg = loadImage("assets/grass.png"); // 'grass3' by RPG
+
+  // https://opengameart.org/content/seamless-brickconcrete-textures-2
+  gravelImg = loadImage("assets/gravel.png"); // 'tile_gravel' by BMacZero (Brian MacIntosh)
+}
 
 function setup() {
   if (windowWidth < windowHeight) {
@@ -23,8 +31,11 @@ function setup() {
   else {
     createCanvas(windowHeight, windowHeight);
   }
-  magicalCellSize = height / MAGICAL_GRID_SIZE;
-  magicalGrid = summonRandomMagicalGrid(MAGICAL_GRID_SIZE, MAGICAL_GRID_SIZE);
+  cellSize = height / GRIDSIZE;
+  grid = generateRandomGrid(GRIDSIZE, GRIDSIZE);
+
+  // add player to grid
+  grid[guy.y][guy.x] = GUYTILE;
 }
 
 function windowResized() {
@@ -34,91 +45,115 @@ function windowResized() {
   else {
     resizeCanvas(windowHeight, windowHeight);
   }
-  magicalCellSize = height / MAGICAL_GRID_SIZE;
+  cellSize = height / GRIDSIZE;
 }
 
 function draw() {
   background(220);
-  magicalGridDisplayer();
+  gridDisplayer();
 }
 
 function mousePressed() {
-  let x = Math.floor(mouseX / magicalCellSize);
-  let y = Math.floor(mouseY / magicalCellSize);
+  let x = Math.floor(mouseX / cellSize);
+  let y = Math.floor(mouseY / cellSize);
 
   // toggle self
-  magicalCellToggle(x, y);
-
-  // toggle neighbours
-  if (magicalNeighbourToggler) {
-    magicalCellToggle(x + 1, y);
-    magicalCellToggle(x - 1, y);
-    magicalCellToggle(x, y + 1);
-    magicalCellToggle(x, y - 1);
-  }
+  cellToggle(x, y);
 }
 
-function magicalCellToggle(x, y) {
+function cellToggle(x, y) {
   // make sure the cell you're toggling is in the grid
-  if (x >= 0 && y >= 0 && x < MAGICAL_GRID_SIZE && y < MAGICAL_GRID_SIZE) {
-    if (magicalGrid[y][x] === 1) {
-      magicalGrid[y][x] = 0;
+  if (x >= 0 && y >= 0 && x < GRIDSIZE && y < GRIDSIZE) {
+    if (grid[y][x] === CLOSEDTILE) {
+      grid[y][x] = OPENTILE;
     }
-    else {
-      magicalGrid[y][x] = 1;
+    else if (grid[y][x] === OPENTILE) {
+      grid[y][x] = CLOSEDTILE;
     }
   }
 }
 
 function keyPressed() {
+  // grid settings
   if (key === "r") {
-    magicalGrid = summonRandomMagicalGrid(MAGICAL_GRID_SIZE, MAGICAL_GRID_SIZE);
+    grid = generateRandomGrid(GRIDSIZE, GRIDSIZE);
   }
   if (key === "e") {
-    magicalGrid = summonEmptyMagicalGrid(MAGICAL_GRID_SIZE, MAGICAL_GRID_SIZE);
+    grid = generateEmptyGrid(GRIDSIZE, GRIDSIZE);
   }
-  if (key === "n") {
-    magicalNeighbourToggler = !magicalNeighbourToggler;
+
+  // movement
+  if (key === "w") {
+    // move up
+    moveGuy(guy.x, guy.y - 1);
+  }
+  if (key === "a") {
+    // move left
+    moveGuy(guy.x - 1, guy.y);
+  }
+  if (key === "s") {
+    // move down
+    moveGuy(guy.x, guy.y + 1);
+  }
+  if (key === "d") {
+    // move right
+    moveGuy(guy.x + 1, guy.y);
   }
 }
 
-function magicalGridDisplayer() {
-  for (let y = 0; y < MAGICAL_GRID_SIZE; y++) {
-    for (let x = 0; x < MAGICAL_GRID_SIZE; x++) {
-      if (magicalGrid[y][x] === 1) {
-        fill("black");
+function moveGuy(x, y) {
+  if (x >= 0 && x < GRIDSIZE && y >= 0 && y < GRIDSIZE && grid[y][x] === OPENTILE) {
+    // when moving, reset to open spot
+    grid[guy.y][guy.x] = OPENTILE;
+
+    // keep track of player location
+    guy.x = x;
+    guy.y = y;
+    // put player in grid
+    grid[guy.y][guy.x] = GUYTILE;
+  }
+}
+
+function gridDisplayer() {
+  for (let y = 0; y < GRIDSIZE; y++) {
+    for (let x = 0; x < GRIDSIZE; x++) {
+      if (grid[y][x] === CLOSEDTILE) {
+        image(grassImg, x * cellSize, y * cellSize, cellSize, cellSize);
       }
-      else if (magicalGrid[y][x] === 0) {
-        fill("white");
+      else if (grid[y][x] === OPENTILE) {
+        image(gravelImg, x * cellSize, y * cellSize, cellSize, cellSize);
       }
-      square(x * magicalCellSize, y * magicalCellSize, magicalCellSize);
+      else if (grid[y][x] === GUYTILE) {
+        fill("gold");
+        square(x * cellSize, y * cellSize, cellSize);
+      }
     }
   }
 }
 
-function summonRandomMagicalGrid(cols, rows) {
+function generateRandomGrid(cols, rows) {
   let newGrid = [];
   for (let y = 0; y < rows; y++) {
     newGrid.push([]);
     for (let x = 0; x < cols; x++) {
       // chooses either 0 or 1, 50% of the time
       if (random(100) < 50) {
-        newGrid[y].push(1);
+        newGrid[y].push(CLOSEDTILE);
       }
       else {
-        newGrid[y].push(0);
+        newGrid[y].push(OPENTILE);
       }
     }
   }
   return newGrid;
 }
 
-function summonEmptyMagicalGrid(cols, rows) {
+function generateEmptyGrid(cols, rows) {
   let newGrid = [];
   for (let y = 0; y < rows; y++) {
     newGrid.push([]);
     for (let x = 0; x < cols; x++) {
-      newGrid[y].push(0);
+      newGrid[y].push(OPENTILE);
     }
   }
   return newGrid;
