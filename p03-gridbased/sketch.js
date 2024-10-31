@@ -19,11 +19,15 @@
 
 let state = "start"; // sets the 'start' screen state
 
+
+// movement inspired by; https://editor.p5js.org/mrhaikuswan/sketches/hzMgNbSu_
 let player = {
   x: 0,
   y: 0,
   size: 50,
-  speed: 5,
+  speed: 7,
+  hori: null,
+  vert: null,
 };
 
 function setup() {
@@ -57,6 +61,43 @@ function keyPressed() {
   if (state === "start") {
     state = "active";
   }
+  if (state === "active") { // will give 4-directional movement to the user
+    if (key === "w") {
+      player.vert = "up";
+    }
+
+    if (key === "s") {
+      player.vert = "down";
+    }
+
+    if (key === "a") {
+      player.hori = "left";
+    }
+
+    if (key === "d") {
+      player.hori = "right";
+    }
+  }
+}
+
+function keyReleased(){
+  if (state === "active") { // will give 4-directional movement to the user
+    if (key === "w" && player.vert === "up") {
+      player.vert = null;
+    }
+
+    if (key === "s" && player.vert === "down") {
+      player.vert = null;
+    }
+
+    if (key === "a" && player.hori === "left") {
+      player.hori = null;
+    }
+
+    if (key === "d" && player.hori === "right") {
+      player.hori = null;
+    }
+  }
 }
 
 /**
@@ -64,27 +105,43 @@ function keyPressed() {
  */
 function playerMovement() {
   if (state === "active") { // will give 4-directional movement to the user
-    if (keyIsPressed === true) {
-      if (key === "w") {
-        player.y -= player.speed;
+    if (player.vert === "up") {
+      player.y -= player.speed;
+      if (player.y <= 0) {
+        player.vert = null;
       }
+    }
 
-      if (key === "s") {
-        player.y += player.speed;
+    if (player.vert === "down") {
+      player.y += player.speed;
+      if (player.y >= height - player.size) {
+        player.vert = null;
       }
+    }
 
-      if (key === "a") {
-        player.x -= player.speed;
+    if (player.hori === "left") {
+      player.x -= player.speed;
+      if (player.x <= 0) {
+        player.hori = null;
       }
+    }
 
-      if (key === "d") {
-        player.x += player.speed;
+    if (player.hori === "right") {
+      player.x += player.speed;
+      if (player.x >= width - player.size) {
+        player.hori = null;
       }
     }
   }
 }
 
 function playerGraphics() {
+  fill("green");
+  noStroke();
   square(player.x, player.y, player.size);
+}
+
+function windowResized() { // will reposition assets when changing screen size
+  resizeCanvas(windowWidth, windowHeight);
 }
 
