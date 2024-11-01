@@ -26,12 +26,19 @@ let player = {
   y: 0,
   size: 50,
   speed: 7,
-  hori: null,
-  vert: null,
+};
+
+let movestate = {
+  up: false,
+  down: false,
+  left: false,
+  right: false,
 };
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  player.x = width/2;
+  player.y = height/2;
 }
 
 function draw() {
@@ -63,39 +70,39 @@ function keyPressed() {
   }
   if (state === "active") { // will give 4-directional movement to the user
     if (key === "w") {
-      player.vert = "up";
+      movestate.up = true;
     }
 
     if (key === "s") {
-      player.vert = "down";
+      movestate.down = true;
     }
 
     if (key === "a") {
-      player.hori = "left";
+      movestate.left = true;
     }
 
     if (key === "d") {
-      player.hori = "right";
+      movestate.right = true;
     }
   }
 }
 
 function keyReleased(){
-  if (state === "active") { // will give 4-directional movement to the user
-    if (key === "w" && player.vert === "up") {
-      player.vert = null;
+  if (state === "active") {
+    if (key === "w" && movestate.up === true) {
+      movestate.up = false;
     }
 
-    if (key === "s" && player.vert === "down") {
-      player.vert = null;
+    if (key === "s" && movestate.down === true) {
+      movestate.down = false;
     }
 
-    if (key === "a" && player.hori === "left") {
-      player.hori = null;
+    if (key === "a" && movestate.left === true) {
+      movestate.left = false;
     }
 
-    if (key === "d" && player.hori === "right") {
-      player.hori = null;
+    if (key === "d" && movestate.right === true) {
+      movestate.right = false;
     }
   }
 }
@@ -104,32 +111,32 @@ function keyReleased(){
  * wowza
  */
 function playerMovement() {
-  if (state === "active") { // will give 4-directional movement to the user
-    if (player.vert === "up") {
+  if (state === "active") { 
+    if (movestate.up === true) {
       player.y -= player.speed;
       if (player.y <= 0) {
-        player.vert = null;
+        movestate.up = false;
       }
     }
 
-    if (player.vert === "down") {
+    if (movestate.down === true) {
       player.y += player.speed;
       if (player.y >= height - player.size) {
-        player.vert = null;
+        movestate.down = false;
       }
     }
 
-    if (player.hori === "left") {
+    if (movestate.left === true) {
       player.x -= player.speed;
       if (player.x <= 0) {
-        player.hori = null;
+        movestate.left = false;
       }
     }
 
-    if (player.hori === "right") {
+    if (movestate.right === true) {
       player.x += player.speed;
       if (player.x >= width - player.size) {
-        player.hori = null;
+        movestate.right = false;
       }
     }
   }
@@ -144,4 +151,3 @@ function playerGraphics() {
 function windowResized() { // will reposition assets when changing screen size
   resizeCanvas(windowWidth, windowHeight);
 }
-
