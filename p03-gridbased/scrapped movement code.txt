@@ -1,0 +1,77 @@
+function keyPressed() {
+  if (state === "start") {
+    state = "active";
+  }
+  if (state === "active") { // will give 4-directional movement to the user
+    if (key === "w") {
+      movestate.up = true;
+    }
+
+    if (key === "s") {
+      movestate.down = true;
+    }
+
+    if (key === "a") {
+      movestate.left = true;
+    }
+
+    if (key === "d") {
+      movestate.right = true;
+    }
+  }
+}
+
+function keyReleased(){
+  if (state === "active") {
+    if (key === "w" && movestate.up === true) {
+      movestate.up = false;
+    }
+
+    if (key === "s" && movestate.down === true) {
+      movestate.down = false;
+    }
+
+    if (key === "a" && movestate.left === true) {
+      movestate.left = false;
+    }
+
+    if (key === "d" && movestate.right === true) {
+      movestate.right = false;
+    }
+  }
+}
+
+/**
+ * wowza
+ */
+function playerMovement() {
+  if (state === "active") { 
+    if (movestate.up === true) {
+      player.y -= player.speed;
+      if (player.y <= 0) {
+        movestate.up = false;
+      }
+    }
+
+    if (movestate.down === true) {
+      player.y += player.speed;
+      if (player.y >= height - player.size) {
+        movestate.down = false;
+      }
+    }
+
+    if (movestate.left === true) {
+      player.x -= player.speed;
+      if (player.x <= 0) {
+        movestate.left = false;
+      }
+    }
+
+    if (movestate.right === true) {
+      player.x += player.speed;
+      if (player.x >= width - player.size) {
+        movestate.right = false;
+      }
+    }
+  }
+}
