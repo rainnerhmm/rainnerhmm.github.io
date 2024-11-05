@@ -24,12 +24,9 @@ let gridsize = 9;
 let cellSize;
 
 // constants for tiles, rather than hardcoding
-const OPENTILE = 0;
-const CLOSEDTILE = 1;
-
-
-// player tilevalue and location
-const PLAYERTILE = 9; // number is non-important, just needs to be different from 1 and 0
+const TILES = {
+  player: "1", purple: "P", blue: "B", red: "R", green: "G", yellow: "Y",
+};
 
 let player = {
   x: 0,
@@ -148,7 +145,7 @@ function keyReleased() {
   }
 }
 
-function playerMovement(x,y) {
+function playerMovement(x, y) {
   if (state === "active") {
     if (x >= 0 && x < gridsize && y >= 0 && y < gridsize && grid[y][x] === OPENTILE) {
       // when moving, reset to open spot
