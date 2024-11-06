@@ -23,6 +23,7 @@ its my personal github thing
 - [the conwaysgames' to kill a gridperson](d12-conwaysgame)
 - [rectangrids explode](d13-rectangrids)
 - [guy versus the gridbased lawn](d14-gridstuck)
+- [super javascriptio maker](d15-platformer)
 
 ### repositories
 - [rocks! papers!! scissors!!!](https://rainnerhmm.github.io/rockspapersscissors-js/interactivescene/)
