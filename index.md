@@ -27,7 +27,7 @@ its my personal github thing
 
 ### repositories
 - [rocks! papers!! scissors!!!](https://rainnerhmm.github.io/rockspapersscissors-js/interactivescene/)
-- [hook 'em! a fishing game](https://rainnerhmm.github.io/javascript-fishing/arrayproject/)
+- [hook 'em! a fishing game](https://rainnerhmm.github.io/fishing-js/arrayproject/)
 
 ## compsci twenty
 
