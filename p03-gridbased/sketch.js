@@ -209,7 +209,6 @@ function mousePressed() {
 // }
 
 function boardGraphics() {
-  noStroke();
   for (let y = 0; y < gridsize; y++) {
     for (let x = 0; x < gridsize; x++) {
       // displays bluespots
@@ -226,7 +225,10 @@ function boardGraphics() {
         fill("gold");
         square(x * cellSize, y * cellSize, cellSize);
       }
-      // displays players
+      else if (grid[y][x] === TILES.purple) {
+        fill("purple");
+        square(x * cellSize, y * cellSize, cellSize * 3);
+      }
     }
   }
 }
@@ -236,13 +238,15 @@ function boardLayout(cols, rows) {
   for (let y = 0; y < rows; y++) {
     newGrid.push([]); // creates new empty array
     for (let x = 0; x < cols; x++) {
-      if (x === 0 && y === 0 || x === gridsize-1 && y === gridsize-1 || x === gridsize-1 && y === 0 || x === 0 && y === gridsize-1) { 
+      if (x === 0 && y === 0 || x === gridsize - 1 && y === gridsize - 1 || x === gridsize - 1 && y === 0 || x === 0 && y === gridsize - 1) {
         newGrid[y].push(TILES.yellow);
       }
-      else if (x === 0 || y === 0 || x === gridsize-1 || y === gridsize-1) { 
+      else if (x === 0 || y === 0 || x === gridsize - 1 || y === gridsize - 1) {
         newGrid[y].push(TILES.blue);
       }
-
+      else if (x === Math.floor(gridsize) - 1 && y === Math.floor(gridsize) - 1 || x === Math.floor(gridsize) + 1 && y === Math.floor(gridsize) + 1) {
+        newGrid[y].push(TILES.purple);
+      }
       else {
         newGrid[y].push(TILES.bound);
       }
