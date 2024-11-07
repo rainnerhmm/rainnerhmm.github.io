@@ -72,7 +72,7 @@ function display() {
 
 function showTile(location, x, y) {
   if (location === "#") {
-    image(platform, x * tileWidth, y * tileHeight, tileWidth, tileHeight);
+    image(platform, x * tileWidth, y * tileHeight, tileWidth + 25, tileHeight + 25);
   }
   else if (location === "C") {
     image(coin, x * tileWidth, y * tileHeight, tileWidth, tileHeight);
