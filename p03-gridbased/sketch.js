@@ -227,7 +227,7 @@ function boardGraphics() {
       }
       else if (grid[y][x] === TILES.purple) {
         fill("purple");
-        square(x * cellSize, y * cellSize, cellSize * 3);
+        square(x * cellSize, y * cellSize, cellSize);
       }
     }
   }
@@ -235,20 +235,23 @@ function boardGraphics() {
 
 function boardLayout(cols, rows) {
   let newGrid = [];
-  for (let y = 0; y < rows; y++) {
+  for (y = 0; y < rows; y++) {
     newGrid.push([]); // creates new empty array
-    for (let x = 0; x < cols; x++) {
+    for (x = 0; x < cols; x++) {
       if (x === 0 && y === 0 || x === gridsize - 1 && y === gridsize - 1 || x === gridsize - 1 && y === 0 || x === 0 && y === gridsize - 1) {
         newGrid[y].push(TILES.yellow);
       }
       else if (x === 0 || y === 0 || x === gridsize - 1 || y === gridsize - 1) {
         newGrid[y].push(TILES.blue);
       }
-      else if (x === Math.floor(gridsize) - 1 && y === Math.floor(gridsize) - 1 || x === Math.floor(gridsize) + 1 && y === Math.floor(gridsize) + 1) {
-        newGrid[y].push(TILES.purple);
-      }
       else {
         newGrid[y].push(TILES.bound);
+      }
+      for (let y = Math.floor(gridsize-1/2); y < Math.floor(gridsize+1/2); y++) {
+        newGrid.push([]);
+        for (let x = Math.floor(gridsize-1/2); x < Math.floor(gridsize+1/2); x++) {
+          newGrid[y].push(TILES.purple);
+        }
       }
     }
   }
