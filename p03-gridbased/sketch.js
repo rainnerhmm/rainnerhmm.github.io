@@ -21,6 +21,12 @@
 // https://kenney.nl/assets/board-game-info
 // https://kenney.nl/assets/board-game-icons
 // https://kenney.nl/assets/ui-pack
+// https://kenney.nl/assets/cursor-pack
+// https://kenney.nl/assets/pattern-pack
+// https://kenney.nl/assets/emotes-pack
+// https://kenney.nl/assets/boardgame-pack
+// https://kenney.nl/assets/playing-cards-pack
+// https://kenney.nl/assets/game-icons
 
 
 // bouncing text reference
