@@ -35,7 +35,7 @@
 // grid reference
 // https://schellenberg.github.io/cs30-exemplar-projects/grid-based-game-exemplars/sudoku/
 
-let gameState = "start"; // sets the 'start' screen state
+let gameState = "active"; // sets the 'start' screen state
 
 let grid, gridSize, clockSize, infoSize, cellSize; // 
 
@@ -45,7 +45,19 @@ let horizSpace, vertSpace; // the space within the padding
 let gridDim = 11; // grid dimensions; number of rows and columns (11x11sq)
 
 let titleImage;
-let playerImageA, playerImageB, playerImageC, playerImageD;
+
+class Player {
+  constructor(graphic) {
+    this.graphic = graphic;
+  }
+}
+
+let player = {
+  pA: new Player(),
+  pB: new Player(),
+  pC: new Player(),
+  pD: new Player(),
+};
 
 let backgroundMusic;
 let clickSound;
@@ -54,7 +66,7 @@ const SCALE = {
   grid: 0.3, // sets the gridsize to 30% of the window and/or area
   clock: 0.23, // sets the clocksize to 23% of the window and/or area
   info: 0.23, // sets the clocksize to 23% of the window and/or area
-  text: 0.03, // sets the clocksize to 3% of the window and/or area
+  text: 0.1 , // sets the clocksize to 10% of the window and/or area
   halved: 0.5, // centers objects within the window and/or area
 };
 
@@ -68,13 +80,9 @@ const TILES = {
   bound: "#",
 };
 
-let player = {
-  x: 0,
-  y: 0,
-};
-
 function preload() {
   // loadImage();
+  loadImage();
 }
 
 function setup() {
@@ -83,7 +91,7 @@ function setup() {
   gridSize = windowWidth * SCALE.grid;
   clockSize = windowWidth * SCALE.clock;
   infoSize = windowWidth * SCALE.info;
-  textSize(windowWidth * SCALE.text);
+  textSize(gridSize * SCALE.text);
 
   horizPadding = (windowWidth - gridSize) * SCALE.halved;
   vertPadding = (windowHeight - gridSize) * SCALE.halved;
@@ -102,10 +110,13 @@ function windowResized() { // will reposition assets when changing screen size
   gridSize = windowWidth * SCALE.grid;
   clockSize = windowWidth * SCALE.clock;
   infoSize = windowWidth * SCALE.info;
-  textSize(windowWidth * SCALE.text);
+  textSize(gridSize * SCALE.text);
 
   horizPadding = (windowWidth - gridSize) * SCALE.halved;
   vertPadding = (windowHeight - gridSize) * SCALE.halved;
+
+  horizSpace = horizPadding + gridSize;
+  vertSpace = vertPadding + gridSize;
 
   cellSize = gridSize / gridDim;
 }
@@ -137,18 +148,18 @@ function mousePressed() {
 
 function infoGraphics() {
   // timer
-  circle(windowWidth * SCALE.halved, vertPadding * SCALE.halved, clockSize* SCALE.clock);
+  circle(windowWidth * SCALE.halved, vertPadding * SCALE.halved, clockSize * SCALE.clock);
   // round count
-  textAlign(CENTER, CENTER);
-  text("Round 2", windowWidth * SCALE.halved, windowHeight * 0.37);
+  // textAlign(CENTER, CENTER);
+  // text("Round 2", horizSpace * SCALE.halved, vertSpace * SCALE.halved);
   // playmenu
-  rect(horizSpace * 1.1, vertSpace * 0.7 , 300 , 100);
-  rect(horizSpace * 1.1, vertSpace * 0.5 , 300 , 100);
-  rect(horizSpace * 1.1, vertSpace * 0.3, 300 , 100);
+  rect(horizSpace * 1.1, vertSpace * 0.7, 300, 100);
+  rect(horizSpace * 1.1, vertSpace * 0.5, 300, 100);
+  rect(horizSpace * 1.1, vertSpace * 0.3, 300, 100);
   // player turn and info
-  rect(horizSpace * 0.15, vertSpace * 0.7 , 300 , 100);
-  rect(horizSpace * 0.15, vertSpace * 0.5 , 300 , 100);
-  rect(horizSpace * 0.15, vertSpace * 0.3, 300 , 100);
+  rect(horizSpace * 0.15, vertSpace * 0.7, 300, 100);
+  rect(horizSpace * 0.15, vertSpace * 0.5, 300, 100);
+  rect(horizSpace * 0.15, vertSpace * 0.3, 300, 100);
 }
 
 function boardGraphics() {
