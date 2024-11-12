@@ -35,9 +35,9 @@
 // grid reference
 // https://schellenberg.github.io/cs30-exemplar-projects/grid-based-game-exemplars/sudoku/
 
-let gameState = "active"; // sets the 'start' screen state
+let gameState = "start"; // sets the 'start' screen state
 
-let grid, gridSize, cellSize; // 
+let grid, gridSize, clockSize, infoSize, cellSize; // 
 
 let horizPadding, vertPadding; // horizontal and vertical padding to center the grid
 let horizSpace, vertSpace; // the space within the padding
@@ -51,13 +51,15 @@ let backgroundMusic;
 let clickSound;
 
 const SCALE = {
-  grid: 0.35, // sets the gridsize to 25% of the window
-  halved: 0.5, // centers objects within the window
+  grid: 0.3, // sets the gridsize to 30% of the window and/or area
+  clock: 0.23, // sets the clocksize to 23% of the window and/or area
+  info: 0.23, // sets the clocksize to 23% of the window and/or area
+  text: 0.03, // sets the clocksize to 3% of the window and/or area
+  halved: 0.5, // centers objects within the window and/or area
 };
 
-// constants for tiles, rather than hardcoding
+// constants for tiles, rather than Magic Numbers
 const TILES = {
-  player: "1",
   purple: "P",
   blue: "B",
   red: "R",
@@ -79,6 +81,10 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
 
   gridSize = windowWidth * SCALE.grid;
+  clockSize = windowWidth * SCALE.clock;
+  infoSize = windowWidth * SCALE.info;
+  textSize(windowWidth * SCALE.text);
+
   horizPadding = (windowWidth - gridSize) * SCALE.halved;
   vertPadding = (windowHeight - gridSize) * SCALE.halved;
 
@@ -94,6 +100,10 @@ function windowResized() { // will reposition assets when changing screen size
   resizeCanvas(windowWidth, windowHeight);
 
   gridSize = windowWidth * SCALE.grid;
+  clockSize = windowWidth * SCALE.clock;
+  infoSize = windowWidth * SCALE.info;
+  textSize(windowWidth * SCALE.text);
+
   horizPadding = (windowWidth - gridSize) * SCALE.halved;
   vertPadding = (windowHeight - gridSize) * SCALE.halved;
 
@@ -116,7 +126,6 @@ function titleScreen() {
 
   let startText = "press any button";
   textAlign(CENTER, CENTER);
-  textSize(30);
   text(startText, width / 2, height / 2); // displays 'start' screen text
 }
 
@@ -128,10 +137,9 @@ function mousePressed() {
 
 function infoGraphics() {
   // timer
-  circle(windowWidth * SCALE.halved, vertPadding * SCALE.halved, 85);
+  circle(windowWidth * SCALE.halved, vertPadding * SCALE.halved, clockSize* SCALE.clock);
   // round count
   textAlign(CENTER, CENTER);
-  textSize(45); 
   text("Round 2", windowWidth * SCALE.halved, windowHeight * 0.37);
   // playmenu
   rect(horizSpace * 1.1, vertSpace * 0.7 , 300 , 100);
