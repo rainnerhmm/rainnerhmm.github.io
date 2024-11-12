@@ -17,11 +17,30 @@
 
 // Extra for Experts:
 
-let state = "start"; // sets the 'start' screen state
+// assets
+// https://kenney.nl/assets/board-game-info
+// https://kenney.nl/assets/board-game-icons
+// https://kenney.nl/assets/ui-pack
 
-let grid;
-let gridsize = 11;
-let cellSize;
+
+// bouncing text reference
+// https://codepen.io/SteveJRobertson/pen/xwxeGO
+
+// grid reference
+// https://schellenberg.github.io/cs30-exemplar-projects/grid-based-game-exemplars/sudoku/
+
+let gameState = "active"; // sets the 'start' screen state
+
+let grid, gridSize, cellSize; // 
+let horizPadding, vertPadding, horizEdge, vertEdge; // horizontal and vertical padding to center the grid
+
+let gridDim = 11; // grid dimensions; number of rows and columns (11x11sq)
+
+let titleImage;
+let playerImageA, playerImageB, playerImageC, playerImageD;
+
+let backgroundMusic;
+let clickSound;
 
 // constants for tiles, rather than hardcoding
 const TILES = {
@@ -39,195 +58,85 @@ let player = {
   y: 0,
 };
 
-let movestate = {
-  up: false,
-  down: false,
-  left: false,
-  right: false,
-};
-
-// notes;
-// purple and crownspots will always be in the same place.
-
-// Purple; The Starting Area: Place your Characters in this area to start the Game.
-
-// Blue; Land Here and take 1 Movement Card from the Pile.
-
-// Red; Land Here and put 2 of your Movement Cards at the bottom of the Movement Card Pile.
-
-// Green; Land Here and take 1 Chance Card from the Chance Card Pile.
-
-// Yellow; Land Here and take the Super Card from under the Yellow Space.
-
-// How a duel works; If you land on the same space as someone else, a Duel commences.
-// You place down 4 Movement Cards facing downwards, Flip the last one. 
-// If your flipped card is higher than the opponent, if both of you have the same number, 
-// repeat until victorious, or until your movement cards run out.
-// * You can choose any cards to be used in a Duel. If you have a Super Card in your deck the opponent will receive it,
-
-// Movement Cards; You start the game with 5 Movement Cards.  Organize, Strategize, and Maximize with your cards to become victorious. 
-// * You can get more Movement Cards from Duels, Chance Cards & Blue Spaces
-
-// Chance Cards; You get these cards from Green Spaces, you can do special things with them like: Four-Way Duels...
-// ...Take 5 Movement Cards from any opponent, and more. Once used return to the bottom of the Chance Card Pile.
-
-// How to Win; You win the Game by collecting all 4 Super Cards.
+function preload() {
+  // loadImage();
+}
 
 function setup() {
-  if (windowWidth < windowHeight) {
-    createCanvas(windowWidth, windowWidth);
-  }
-  else {
-    createCanvas(windowHeight, windowHeight);
-  }
-  cellSize = height / gridsize;
-  grid = boardLayout(gridsize, gridsize);
+  createCanvas(windowWidth, windowHeight);
+
+  // sets the gridsize to 40% of the window, and centers within the window
+  gridSize = windowWidth * 0.4;
+  horizPadding = (windowWidth - gridSize) * 0.5;
+  vertPadding = (windowHeight - gridSize) * 0.5;
+
+  cellSize = gridSize / gridDim; // sets size of individual cells within the grid
+  grid = boardLayout(gridDim, gridDim); // generates board layout
 }
 
 function windowResized() { // will reposition assets when changing screen size
-  if (windowWidth < windowHeight) {
-    resizeCanvas(windowWidth, windowWidth);
-  }
-  else {
-    resizeCanvas(windowHeight, windowHeight);
-  }
-  cellSize = height / gridsize;
+  // cool spinning effect when pressing f11 attempt through code
+  resizeCanvas(windowWidth, windowHeight);
+
+  gridSize = windowWidth * 0.4;
+  horizPadding = (windowWidth - gridSize) * 0.5;
+  vertPadding = (windowHeight - gridSize) * 0.5;
+
+  cellSize = gridSize / gridDim;
+  grid = boardLayout(gridDim, gridDim);
 }
 
 function draw() {
   background(220);
-  if (state === "start") {
-    titleState(); // displays 'start' screen
+  if (gameState === "start") {
+    titleScreen(); // displays 'start' screen
   }
-  else if (state === "active") {
-    // playerGraphics();
+  else if (gameState === "active") {
     boardGraphics();
   }
 }
 
-function keyPressed() {
-  if (state === "start") {
-    state = "active";
-  }
-  if (state === "active") { // will give 4-directional movement to the user
-    if (key === "w") {
-      movestate.up = true;
-    }
+function titleScreen() {
+  // image(titleImage);
 
-    if (key === "s") {
-      movestate.down = true;
-    }
-
-    if (key === "a") {
-      movestate.left = true;
-    }
-
-    if (key === "d") {
-      movestate.right = true;
-    }
-  }
-}
-
-function keyReleased() {
-  if (state === "active") {
-    if (key === "w" && movestate.up === true) {
-      movestate.up = false;
-    }
-
-    if (key === "s" && movestate.down === true) {
-      movestate.down = false;
-    }
-
-    if (key === "a" && movestate.left === true) {
-      movestate.left = false;
-    }
-
-    if (key === "d" && movestate.right === true) {
-      movestate.right = false;
-    }
-  }
-}
-
-function playerMovement(x, y) {
-  if (state === "active") {
-    if (x >= 0 && x < gridsize && y >= 0 && y < gridsize && grid[y][x] === TILES.red) {
-      // when moving, reset to open spot
-      grid[player.y][player.x] = TILES.red;
-
-      // keep track of player location
-      player.x = x;
-      player.y = y;
-
-      // put player in grid
-      grid[player.y][player.x] = TILES.player;
-    }
-    if (movestate.up === true) {
-      player.y -= 1;
-    }
-
-    if (movestate.down === true) {
-      player.y += 1;
-    }
-
-    if (movestate.left === true) {
-      player.x -= 1;
-    }
-
-    if (movestate.right === true) {
-      player.x += 1;
-    }
-  }
-}
-
-function titleState() {
+  let startText = "press any button";
   textAlign(CENTER, CENTER);
   textSize(30);
-  text("press any button", width / 2, height / 2); // displays 'start' screen text
+  text(startText, width / 2, height / 2); // displays 'start' screen text
 }
 
 function mousePressed() {
-  if (state === "start") {
-    state = "active"; // switches 'start screen' state to an 'active' state, going right
+  if (gameState === "start") {
+    gameState = "active"; // switches 'start screen' state to an 'active' state, going right
   }
 }
 
-// function playerGraphics() {
-//   fill("green");
-//   noStroke();
-//   square(player.x, player.y, player.size);
-// }
-
-// function boardLayout(cols, rows) {
-//   let newGrid = [];
-//   for (let y = 0; y < rows; y++) {
-//     newGrid.push([]);
-//     for (let x = 0; x < cols; x++) {
-//       newGrid[y].push(TILES.bound);
-//     }
-//   }
-//   return newGrid;
-// }
-
 function boardGraphics() {
-  for (let y = 0; y < gridsize; y++) {
-    for (let x = 0; x < gridsize; x++) {
-      // displays bluespots
+  for (let y = 0; y < gridDim; y++) {
+    for (let x = 0; x < gridDim; x++) {
       if (grid[y][x] === TILES.bound) {
         fill("white");
-        square(x * cellSize, y * cellSize, cellSize);
+        square(x * cellSize + horizPadding, y * cellSize + vertPadding, cellSize);
       }
-      // displays redspots
       else if (grid[y][x] === TILES.blue) {
         fill("blue");
-        square(x * cellSize, y * cellSize, cellSize);
+        square(x * cellSize + horizPadding, y * cellSize + vertPadding, cellSize);
+      }
+      else if (grid[y][x] === TILES.red) {
+        fill("red");
+        square(x * cellSize + horizPadding, y * cellSize + vertPadding, cellSize);
+      }
+      else if (grid[y][x] === TILES.green) {
+        fill("green");
+        square(x * cellSize + horizPadding, y * cellSize + vertPadding, cellSize);
       }
       else if (grid[y][x] === TILES.yellow) {
         fill("gold");
-        square(x * cellSize, y * cellSize, cellSize);
+        square(x * cellSize + horizPadding, y * cellSize + vertPadding, cellSize);
       }
       else if (grid[y][x] === TILES.purple) {
         fill("purple");
-        square(x * cellSize, y * cellSize, cellSize);
+        square(x * cellSize + horizPadding, y * cellSize + vertPadding, cellSize);
       }
     }
   }
@@ -238,20 +147,25 @@ function boardLayout(cols, rows) {
   for (y = 0; y < rows; y++) {
     newGrid.push([]); // creates new empty array
     for (x = 0; x < cols; x++) {
-      if (x === 0 && y === 0 || x === gridsize - 1 && y === gridsize - 1 || x === gridsize - 1 && y === 0 || x === 0 && y === gridsize - 1) {
+      if (x === 0 && y === 0 || x === gridDim - 1 && y === gridDim - 1 || x === gridDim - 1 && y === 0 || x === 0 && y === gridDim - 1) {
         newGrid[y].push(TILES.yellow);
       }
-      else if (x === 0 || y === 0 || x === gridsize - 1 || y === gridsize - 1) {
-        newGrid[y].push(TILES.blue);
+      else if (x === 0 || y === 0 || x === gridDim - 1 || y === gridDim - 1) {
+        // chooses either 0 or 1, 50% of the time
+        if (Math.floor(random(100)) < 30) {
+          newGrid[y].push(TILES.red);;
+        }
+        else if (Math.floor(random(100)) < 10){
+          newGrid[y].push(TILES.green);
+        }
+        else {
+          newGrid[y].push(TILES.blue);
+        }
+        console.log(Math.floor(random(100)));
+
       }
       else {
         newGrid[y].push(TILES.bound);
-      }
-      for (let y = Math.floor(gridsize-1/2); y < Math.floor(gridsize+1/2); y++) {
-        newGrid.push([]);
-        for (let x = Math.floor(gridsize-1/2); x < Math.floor(gridsize+1/2); x++) {
-          newGrid[y].push(TILES.purple);
-        }
       }
     }
   }

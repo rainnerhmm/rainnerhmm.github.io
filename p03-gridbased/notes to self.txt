@@ -1,0 +1,26 @@
+// notes;
+// purple and crownspots will always be in the same place.
+
+// Purple; The Starting Area: Place your Characters in this area to start the Game.
+
+// Blue; Land Here and take 1 Movement Card from the Pile.
+
+// Red; Land Here and put 2 of your Movement Cards at the bottom of the Movement Card Pile.
+
+// Green; Land Here and take 1 Chance Card from the Chance Card Pile.
+
+// Yellow; Land Here and take the Super Card from under the Yellow Space.
+
+// How a duel works; If you land on the same space as someone else, a Duel commences.
+// You place down 4 Movement Cards facing downwards, Flip the last one. 
+// If your flipped card is higher than the opponent, if both of you have the same number, 
+// repeat until victorious, or until your movement cards run out.
+// * You can choose any cards to be used in a Duel. If you have a Super Card in your deck the opponent will receive it,
+
+// Movement Cards; You start the game with 5 Movement Cards.  Organize, Strategize, and Maximize with your cards to become victorious. 
+// * You can get more Movement Cards from Duels, Chance Cards & Blue Spaces
+
+// Chance Cards; You get these cards from Green Spaces, you can do special things with them like: Four-Way Duels...
+// ...Take 5 Movement Cards from any opponent, and more. Once used return to the bottom of the Chance Card Pile.
+
+// How to Win; You win the Game by collecting all 4 Super Cards.
