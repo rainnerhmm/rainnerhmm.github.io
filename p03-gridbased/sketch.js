@@ -32,7 +32,9 @@
 let gameState = "active"; // sets the 'start' screen state
 
 let grid, gridSize, cellSize; // 
-let horizPadding, vertPadding, horizEdge, vertEdge; // horizontal and vertical padding to center the grid
+
+let horizPadding, vertPadding; // horizontal and vertical padding to center the grid
+let horizSpace, vertSpace; // the space within the padding
 
 let gridDim = 11; // grid dimensions; number of rows and columns (11x11sq)
 
@@ -41,6 +43,11 @@ let playerImageA, playerImageB, playerImageC, playerImageD;
 
 let backgroundMusic;
 let clickSound;
+
+const SCALE = {
+  grid: 0.35, // sets the gridsize to 25% of the window
+  halved: 0.5, // centers objects within the window
+};
 
 // constants for tiles, rather than hardcoding
 const TILES = {
@@ -65,25 +72,26 @@ function preload() {
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
-  // sets the gridsize to 40% of the window, and centers within the window
-  gridSize = windowWidth * 0.4;
-  horizPadding = (windowWidth - gridSize) * 0.5;
-  vertPadding = (windowHeight - gridSize) * 0.5;
+  gridSize = windowWidth * SCALE.grid;
+  horizPadding = (windowWidth - gridSize) * SCALE.halved;
+  vertPadding = (windowHeight - gridSize) * SCALE.halved;
+
+  horizSpace = horizPadding + gridSize;
+  vertSpace = vertPadding + gridSize;
 
   cellSize = gridSize / gridDim; // sets size of individual cells within the grid
   grid = boardLayout(gridDim, gridDim); // generates board layout
 }
 
 function windowResized() { // will reposition assets when changing screen size
-  // cool spinning effect when pressing f11 attempt through code
+  // cool spinning effect when pressing f11 attempt through code (about 3 seconds)
   resizeCanvas(windowWidth, windowHeight);
 
-  gridSize = windowWidth * 0.4;
-  horizPadding = (windowWidth - gridSize) * 0.5;
-  vertPadding = (windowHeight - gridSize) * 0.5;
+  gridSize = windowWidth * SCALE.grid;
+  horizPadding = (windowWidth - gridSize) * SCALE.halved;
+  vertPadding = (windowHeight - gridSize) * SCALE.halved;
 
   cellSize = gridSize / gridDim;
-  grid = boardLayout(gridDim, gridDim);
 }
 
 function draw() {
@@ -93,6 +101,7 @@ function draw() {
   }
   else if (gameState === "active") {
     boardGraphics();
+    infoGraphics();
   }
 }
 
@@ -109,6 +118,23 @@ function mousePressed() {
   if (gameState === "start") {
     gameState = "active"; // switches 'start screen' state to an 'active' state, going right
   }
+}
+
+function infoGraphics() {
+  // timer
+  circle(windowWidth * SCALE.halved, vertPadding * SCALE.halved, 85);
+  // round count
+  textAlign(CENTER, CENTER);
+  textSize(45); 
+  text("Round 2", windowWidth * SCALE.halved, windowHeight * 0.37);
+  // playmenu
+  rect(horizSpace * 1.1, vertSpace * 0.7 , 300 , 100);
+  rect(horizSpace * 1.1, vertSpace * 0.5 , 300 , 100);
+  rect(horizSpace * 1.1, vertSpace * 0.3, 300 , 100);
+  // player turn and info
+  rect(horizSpace * 0.15, vertSpace * 0.7 , 300 , 100);
+  rect(horizSpace * 0.15, vertSpace * 0.5 , 300 , 100);
+  rect(horizSpace * 0.15, vertSpace * 0.3, 300 , 100);
 }
 
 function boardGraphics() {
@@ -155,7 +181,7 @@ function boardLayout(cols, rows) {
         if (Math.floor(random(100)) < 30) {
           newGrid[y].push(TILES.red);;
         }
-        else if (Math.floor(random(100)) < 10){
+        else if (Math.floor(random(100)) < 10) {
           newGrid[y].push(TILES.green);
         }
         else {
