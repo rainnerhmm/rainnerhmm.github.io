@@ -46,17 +46,11 @@ let gridDim = 11; // grid dimensions; number of rows and columns (11x11sq)
 
 let titleImage;
 
-class Player {
-  constructor(graphic) {
-    this.graphic = graphic;
-  }
-}
-
 let player = {
-  pA: new Player(),
-  pB: new Player(),
-  pC: new Player(),
-  pD: new Player(),
+  pA: null,
+  pB: null,
+  pC: null,
+  pD: null,
 };
 
 let backgroundMusic;
@@ -66,7 +60,7 @@ const SCALE = {
   grid: 0.3, // sets the gridsize to 30% of the window and/or area
   clock: 0.23, // sets the clocksize to 23% of the window and/or area
   info: 0.23, // sets the clocksize to 23% of the window and/or area
-  text: 0.1 , // sets the clocksize to 10% of the window and/or area
+  text: 0.1, // sets the clocksize to 10% of the window and/or area
   halved: 0.5, // centers objects within the window and/or area
 };
 
@@ -82,7 +76,7 @@ const TILES = {
 
 function preload() {
   // loadImage();
-  loadImage();
+  player.pA = loadSVG("assets/graphics/pawn.svg");
 }
 
 function setup() {
@@ -148,7 +142,7 @@ function mousePressed() {
 
 function infoGraphics() {
   // timer
-  circle(windowWidth * SCALE.halved, vertPadding * SCALE.halved, clockSize * SCALE.clock);
+  // circle(windowWidth * SCALE.halved, vertPadding * SCALE.halved, clockSize * SCALE.clock);
   // round count
   // textAlign(CENTER, CENTER);
   // text("Round 2", horizSpace * SCALE.halved, vertSpace * SCALE.halved);
@@ -160,6 +154,8 @@ function infoGraphics() {
   rect(horizSpace * 0.15, vertSpace * 0.7, 300, 100);
   rect(horizSpace * 0.15, vertSpace * 0.5, 300, 100);
   rect(horizSpace * 0.15, vertSpace * 0.3, 300, 100);
+
+  image(player.pA, windowWidth * SCALE.halved, vertPadding * SCALE.halved);
 }
 
 function boardGraphics() {
