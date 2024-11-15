@@ -76,7 +76,7 @@ const TILES = {
 
 function preload() {
   // loadImage();
-  player.pA = loadSVG("assets/graphics/pawn.svg");
+  player.pA = loadImage("assets/graphics/pawn.svg");
 }
 
 function setup() {
