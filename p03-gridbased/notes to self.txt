@@ -24,3 +24,57 @@
 // ...Take 5 Movement Cards from any opponent, and more. Once used return to the bottom of the Chance Card Pile.
 
 // How to Win; You win the Game by collecting all 4 Super Cards.
+
+  // cool spinning effect when pressing f11 attempt through code (about 3 seconds) when resizing
+
+// stuff for later;
+
+// bouncing text reference
+// https://codepen.io/SteveJRobertson/pen/xwxeGO
+
+// // https://schellenberg.github.io/cs30-exemplar-projects/grid-based-game-exemplars/index.html
+
+// assets
+// https://kenney.nl/assets/board-game-info
+// https://kenney.nl/assets/board-game-icons
+// https://kenney.nl/assets/ui-pack
+// https://kenney.nl/assets/cursor-pack
+// https://kenney.nl/assets/pattern-pack
+// https://kenney.nl/assets/emotes-pack
+// https://kenney.nl/assets/boardgame-pack
+// https://kenney.nl/assets/playing-cards-pack
+// https://kenney.nl/assets/game-icons
+
+scrapped code;
+  // playmenu
+  rect(horizSpace * 1.1, vertSpace * 0.7, infoSizeW * SCALE.HALVED, infoSizeH * SCALE.HALVED);
+  rect(horizSpace * 1.1, vertSpace * 0.5, infoSizeW * SCALE.HALVED, infoSizeH * SCALE.HALVED);
+  rect(horizSpace * 1.1, vertSpace * 0.3, infoSizeW * SCALE.HALVED, infoSizeH * SCALE.HALVED);
+  // player turn and info
+  rect(horizSpace * 0.15, vertSpace * 0.7, infoSizeW * SCALE.HALVED, infoSizeH * SCALE.HALVED);
+  rect(horizSpace * 0.15, vertSpace * 0.5, infoSizeW * SCALE.HALVED, infoSizeH * SCALE.HALVED);
+  rect(horizSpace * 0.15, vertSpace * 0.3, infoSizeW * SCALE.HALVED, infoSizeH * SCALE.HALVED);
+
+  function setup() { // also used in windowResized
+  createCanvas(windowWidth, windowHeight);
+
+  // scales everything to current window width
+  gridSize = windowWidth * SCALE.GRID;  
+  cellSize = gridSize / GRID_DIM;
+  
+  clockSize = windowWidth * SCALE.CLOCK;
+  infoSizeW = windowWidth * SCALE.INFO_W;
+  infoSizeH = windowWidth * SCALE.INFO_H;
+
+  textSize(gridSize * SCALE.TEXT);
+
+  // centers board / grid
+  horizPadding = (windowWidth - gridSize) * SCALE.HALVED;
+  vertPadding = (windowHeight - gridSize) * SCALE.HALVED;
+
+  horizSpace = horizPadding + gridSize;
+  vertSpace = vertPadding + gridSize;
+
+  // generates board layout
+  grid = boardLayout(GRID_DIM, GRID_DIM);
+}

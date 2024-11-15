@@ -2,8 +2,26 @@
 // Rainn Morphy
 // Oct 26, 2024
 
-// Due:
-// Nov 8, 2024
+// Description of Project;
+//    My original idea was much more weird and the scope was to big, featuring weather forecasts and bingo cards? I wasn't confident in the
+// idea and struggled with getting work done, until I made the decision to make this project, 'partyduel!'. 
+//    'partyduel!' was a actual 'board game' me and my friends made back in Elementary School, where in the four corners (golden squares) 
+// were crown cards. Collect all four to win the game. You are given a deck of 'movement cards' to draw from and traverse the board, 
+// instead of dice. If others had gotten one first, you could land on the same space, and have a 'partyduel!' which was essentially 
+// a game of war, using the 'movement cards'. Also wanted to include multiplayer using p5.party.
+//    Obviously none of that is implemented, I personally think, it's not that I couldn't do it, rather just being unorganized.
+
+// Extra for Experts;
+//    Although like my other projects, this one is half-baked and not done at all, I am pretty proud of my scaling, I think it cleans 
+// everything up and makes what would have been many magic numbers, into concise, and easy-to-read.
+//    I am also proud of the color palette, making the RGB codes easy to read, and keeping colors consistent. None of this is pushing any 
+// boundaries of my coding abilities, but I think my organization, code-wise was pretty all right.
+
+// Programming Credits;
+//    I was heavily inspired by how Amy did their 'Sudoku' game, in the sense of making padding variables within Javascript, allowing me to
+// have a background, and a smaller grid within, not sure if Amy's way was the best way, but it sure made it alot easier for me to work
+// with scaling.
+// https://schellenberg.github.io/cs30-exemplar-projects/grid-based-game-exemplars/sudoku/
 
 // For this assignment, you will build a game/simulation that includes 2D Arrays.
 
@@ -13,48 +31,12 @@
 // See the link below for some examples of what students have created in past semesters 
 // (a wide variety of quality of projects are represented). 
 
-// https://schellenberg.github.io/cs30-exemplar-projects/grid-based-game-exemplars/index.html
+// variables below are all for creating the grid
+let grid
+const GRID_DIM = 11; // grid dimensions; number of rows and columns (11x11sq)
 
-// Extra for Experts:
-
-// assets
-// https://kenney.nl/assets/board-game-info
-// https://kenney.nl/assets/board-game-icons
-// https://kenney.nl/assets/ui-pack
-// https://kenney.nl/assets/cursor-pack
-// https://kenney.nl/assets/pattern-pack
-// https://kenney.nl/assets/emotes-pack
-// https://kenney.nl/assets/boardgame-pack
-// https://kenney.nl/assets/playing-cards-pack
-// https://kenney.nl/assets/game-icons
-
-
-// bouncing text reference
-// https://codepen.io/SteveJRobertson/pen/xwxeGO
-
-// grid reference
-// https://schellenberg.github.io/cs30-exemplar-projects/grid-based-game-exemplars/sudoku/
-
-let gameState = "active"; // sets the 'start' screen state
-
-let grid, gridSize, clockSize, infoSizeW, infoSizeH, cellSize; // 
-
-let horizPadding, vertPadding; // horizontal and vertical padding to center the grid
-let horizSpace, vertSpace; // the space within the padding
-
-let gridDim = 11; // grid dimensions; number of rows and columns (11x11sq)
-
-let titleImage;
-
-let colorPalette = {
-  purple: "#893bb3ff",
-  blue: "#00a7e1ff",
-  red: "#ff4747ff",
-  green: "#0cca4aff",
-  gold: "#ffe64fff",
-  bound: "#e5d1d0ff",
-  bg: "#181818ff",
-};
+// variables below are all for game aspects
+let gameState = "play"; // sets the 'title' screen state
 
 let player = {
   pA: null,
@@ -63,20 +45,6 @@ let player = {
   pD: null,
 };
 
-let bgMusicLoop;
-let clickSound;
-let font;
-
-const SCALE = {
-  grid: 0.3, // sets the gridsize to 30% of the window and/or area
-  clock: 0.23, // sets the clocksize to 23% 
-  infoW: 0.32, // sets the infosize width to 23% 
-  infoH: 0.12, // sets the infosize to 23% 
-  text: 0.1, // sets the textsize to 10%
-  halved: 0.5, // centers objects within the window and/or area
-};
-
-// constants for tiles, rather than Magic Numbers
 const TILES = {
   PURPLE: "P",
   GOLD: "Y",
@@ -86,71 +54,93 @@ const TILES = {
   BOUND: "#",
 };
 
+// variables below are all for visual aspects
+let bgMusic, clickSound, titleLogo, gameFont;
+
+const COLOR_PALETTE = { // for consistent colors, and ease of use
+  PURPLE: "#893bb3ff",  
+  BLUE: "#00a7e1ff",
+  RED: "#ff4747ff",
+  GREEN: "#0cca4aff",
+  GOLD: "#ffe64fff",
+  BOUND: "#e5d1d0ff",
+  BG: "#181818ff",
+};
+
+// variables below are all for scaling
+let gridSize, cellSize, clockSize;
+
+let horizPadding, vertPadding; // horizontal and vertical padding to center the grid the space within the padding
+let horizSpace, vertSpace; // the space within the padding
+
+const SCALE = { // scales objects by 'percentage'/decimals of the window size / original volume
+  HALVED: 0.5, // centers objects
+  GRID: 0.3, // 30% 
+
+  CLOCK: 0.23, // 23% 
+
+  TEXT: 0.1, // 10%
+  SOUND: 0.3, // sets the sound volume to 30% of it's original volume
+}; // I'm aware that there is a scale() function, but didn't find out until November 14th, not enough time to implement
+
 function preload() {
   // loadImage();
-  soundFormats("mp3"); // setting the sound format
-  bgMusicLoop = loadSound("assets/music/bgMusic.mp3");
+  soundFormats("mp3");
+  bgMusic = loadSound("assets/music/bgMusic.mp3"); // "Twistee Island" from Mario & Luigi; Brothership by Nintendo
 
-  player.pA = loadImage("assets/graphics/playPiece.svg");
+  player.pA = loadImage("assets/graphics/playPiece.svg"); // "Twistee Island" from Mario & Luigi; Brothership by Kenney
 
-  font = loadFont("assets/fonts/gameFont.otf");
+  gameFont = loadFont("assets/fonts/gameFont.otf"); // "MARIO_Font_v3_Solid" or the official 'Mario Font' by Nintendo and Fontworks
 }
-
-function backgroundMusic() {  // "Twistee Island" from Mario & Luigi; Brothership by Nintendo
-  bgMusicLoop.play();
-  bgMusicLoop.loop();
-  bgMusicLoop.amp(0.3); // sets the volume to 30%
-}
-
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  noStroke();
 
-  gridSize = windowWidth * SCALE.grid;
-  clockSize = windowWidth * SCALE.clock;
-  infoSizeW = windowWidth * SCALE.infoW;
-  infoSizeH = windowWidth * SCALE.infoH;
-  textSize(gridSize * SCALE.text);
+  // scales everything to current window width
+  gridSize = windowWidth * SCALE.GRID;  
+  cellSize = gridSize / GRID_DIM;
 
-  horizPadding = (windowWidth - gridSize) * SCALE.halved;
-  vertPadding = (windowHeight - gridSize) * SCALE.halved;
+  clockSize = windowWidth * SCALE.CLOCK;
 
-  horizSpace = horizPadding + gridSize;
-  vertSpace = vertPadding + gridSize;
+  textSize(gridSize * SCALE.TEXT);
 
-  cellSize = gridSize / gridDim; // sets size of individual cells within the grid
-  grid = boardLayout(gridDim, gridDim); // generates board layout
-}
-
-function windowResized() { // will reposition assets when changing screen size
-  // cool spinning effect when pressing f11 attempt through code (about 3 seconds)
-  resizeCanvas(windowWidth, windowHeight);
-
-  gridSize = windowWidth * SCALE.grid;
-  clockSize = windowWidth * SCALE.clock;
-  infoSizeW = windowWidth * SCALE.infoW;
-  infoSizeH = windowWidth * SCALE.infoH;
-  textSize(gridSize * SCALE.text);
-
-  horizPadding = (windowWidth - gridSize) * SCALE.halved;
-  vertPadding = (windowHeight - gridSize) * SCALE.halved;
+  // centers board / grid
+  horizPadding = (windowWidth - gridSize) * SCALE.HALVED;
+  vertPadding = (windowHeight - gridSize) * SCALE.HALVED;
 
   horizSpace = horizPadding + gridSize;
   vertSpace = vertPadding + gridSize;
 
-  cellSize = gridSize / gridDim; // sets size of individual cells within the grid
+  // generates board layout
+  grid = boardLayout(GRID_DIM, GRID_DIM);
 }
+
 
 function draw() {
-  background(colorPalette.bg);
-  textFont(font); // sets text font
-  if (gameState === "start") {
-    titleScreen(); // displays 'start' screen
+  background(COLOR_PALETTE.BG);
+  textFont(gameFont); // sets text font
+
+  if (gameState === "title") {
+    titleScreen(); // displays 'title' screen
   }
-  else if (gameState === "active") {
+  else if (gameState === "play") {
     boardGraphics();
     infoGraphics();
+  }
+}
+
+function backgroundMusic() {  
+  bgMusic.play();
+  bgMusic.loop();
+  bgMusic.amp(SCALE.MUSIC);
+}
+
+function mousePressed() {
+  if (!bgMusic.isPlaying()) {
+    backgroundMusic();
+  }
+  if (gameState === "title") {
+    gameState = "play"; // switches 'title screen' state to an 'play' state, going right
   }
 }
 
@@ -158,68 +148,7 @@ function titleScreen() {
   // image(titleImage);
   let startText = "press any button";
   textAlign(CENTER, CENTER);
-  text(startText, width / 2, height / 2); // displays 'start' screen text
-}
-
-function mousePressed() {
-  if (!bgMusicLoop.isPlaying()) {
-    backgroundMusic();
-  }
-  if (gameState === "start") {
-    gameState = "active"; // switches 'start screen' state to an 'active' state, going right
-  }
-}
-
-function infoGraphics() {
-  // timer
-  circle(windowWidth * SCALE.halved, vertPadding * SCALE.halved, clockSize * SCALE.clock);
-  // round count
-  textAlign(CENTER, CENTER);
-  text("Round 2", horizSpace * SCALE.halved, vertSpace * SCALE.halved);
-  // playmenu
-  rect(horizSpace * 1.1, vertSpace * 0.7, infoSizeW * SCALE.halved, infoSizeH * SCALE.halved);
-  rect(horizSpace * 1.1, vertSpace * 0.5, infoSizeW * SCALE.halved, infoSizeH * SCALE.halved);
-  rect(horizSpace * 1.1, vertSpace * 0.3, infoSizeW * SCALE.halved, infoSizeH * SCALE.halved);
-  // player turn and info
-  rect(horizSpace * 0.15, vertSpace * 0.7, infoSizeW * SCALE.halved, infoSizeH * SCALE.halved);
-  rect(horizSpace * 0.15, vertSpace * 0.5, infoSizeW * SCALE.halved, infoSizeH * SCALE.halved);
-  rect(horizSpace * 0.15, vertSpace * 0.3, infoSizeW * SCALE.halved, infoSizeH * SCALE.halved);
-}
-
-function boardGraphics() {
-  for (let y = 0; y < gridDim; y++) {
-    for (let x = 0; x < gridDim; x++) {
-      if (grid[y][x] === TILES.PURPLE) {
-        fill(colorPalette.purple);
-        square(x * cellSize + horizPadding, y * cellSize + vertPadding, cellSize);
-      }
-
-      else if (grid[y][x] === TILES.GOLD) {
-        fill(colorPalette.gold);
-        square(x * cellSize + horizPadding, y * cellSize + vertPadding, cellSize);
-      }
-
-      else if (grid[y][x] === TILES.BLUE) {
-        fill(colorPalette.blue);
-        square(x * cellSize + horizPadding, y * cellSize + vertPadding, cellSize);
-      }
-
-      else if (grid[y][x] === TILES.RED) {
-        fill(colorPalette.red);
-        square(x * cellSize + horizPadding, y * cellSize + vertPadding, cellSize);
-      }
-
-      else if (grid[y][x] === TILES.GREEN) {
-        fill(colorPalette.green);
-        square(x * cellSize + horizPadding, y * cellSize + vertPadding, cellSize);
-      }
-
-      else if (grid[y][x] === TILES.BOUND) {
-        fill(colorPalette.bound);
-        square(x * cellSize + horizPadding, y * cellSize + vertPadding, cellSize);
-      }
-    }
-  }
+  text(startText, width / 2, height / 2); // displays 'title' screen text
 }
 
 function boardLayout(cols, rows) {
@@ -227,10 +156,10 @@ function boardLayout(cols, rows) {
   for (y = 0; y < rows; y++) {
     newGrid.push([]); // creates new empty array
     for (x = 0; x < cols; x++) {
-      if (x === 0 && y === 0 || x === gridDim - 1 && y === gridDim - 1 || x === gridDim - 1 && y === 0 || x === 0 && y === gridDim - 1) {
+      if (x === 0 && y === 0 || x === GRID_DIM - 1 && y === GRID_DIM - 1 || x === GRID_DIM - 1 && y === 0 || x === 0 && y === GRID_DIM - 1) {
         newGrid[y].push(TILES.GOLD);
       }
-      else if (x === 0 || y === 0 || x === gridDim - 1 || y === gridDim - 1) {
+      else if (x === 0 || y === 0 || x === GRID_DIM - 1 || y === GRID_DIM - 1) {
         // chooses either 0 or 1, 50% of the time
         if (Math.floor(random(100)) < 30) {
           newGrid[y].push(TILES.RED);;
@@ -241,8 +170,6 @@ function boardLayout(cols, rows) {
         else {
           newGrid[y].push(TILES.BLUE);
         }
-        console.log(Math.floor(random(100)));
-
       }
       else {
         newGrid[y].push(TILES.BOUND);
@@ -251,3 +178,66 @@ function boardLayout(cols, rows) {
   }
   return newGrid;
 }
+
+function boardGraphics() {
+  for (let y = 0; y < GRID_DIM; y++) {
+    for (let x = 0; x < GRID_DIM; x++) {
+      noStroke();
+      if (grid[y][x] === TILES.PURPLE) {
+        fill(COLOR_PALETTE.PURPLE);
+        square(x * cellSize + horizPadding, y * cellSize + vertPadding, cellSize);
+      }
+
+      else if (grid[y][x] === TILES.GOLD) {
+        fill(COLOR_PALETTE.GOLD);
+        square(x * cellSize + horizPadding, y * cellSize + vertPadding, cellSize);
+      }
+
+      else if (grid[y][x] === TILES.BLUE) {
+        fill(COLOR_PALETTE.BLUE);
+        square(x * cellSize + horizPadding, y * cellSize + vertPadding, cellSize);
+      }
+
+      else if (grid[y][x] === TILES.RED) {
+        fill(COLOR_PALETTE.RED);
+        square(x * cellSize + horizPadding, y * cellSize + vertPadding, cellSize);
+      }
+
+      else if (grid[y][x] === TILES.GREEN) {
+        fill(COLOR_PALETTE.GREEN);
+        square(x * cellSize + horizPadding, y * cellSize + vertPadding, cellSize);
+      }
+
+      else if (grid[y][x] === TILES.BOUND) {
+        fill(COLOR_PALETTE.BOUND);
+        square(x * cellSize + horizPadding, y * cellSize + vertPadding, cellSize);
+      }
+    }
+  }
+}
+
+function infoGraphics() {
+  textAlign(CENTER, CENTER);
+  // timer
+  circle(windowWidth * SCALE.HALVED, vertPadding * SCALE.HALVED, clockSize * SCALE.CLOCK);
+  fill(COLOR_PALETTE.BG);
+  text("60", windowWidth * SCALE.HALVED, vertPadding * SCALE.HALVED);
+}
+
+function windowResized() { // will reposition assets when changing screen size, any comments in the setup apply here
+  resizeCanvas(windowWidth, windowHeight);
+
+  gridSize = windowWidth * SCALE.GRID;
+  cellSize = gridSize / GRID_DIM;
+
+  clockSize = windowWidth * SCALE.CLOCK;
+  textSize(gridSize * SCALE.TEXT);
+
+  horizPadding = (windowWidth - gridSize) * SCALE.HALVED;
+  vertPadding = (windowHeight - gridSize) * SCALE.HALVED;
+
+  horizSpace = horizPadding + gridSize;
+  vertSpace = vertPadding + gridSize;
+}
+
+
