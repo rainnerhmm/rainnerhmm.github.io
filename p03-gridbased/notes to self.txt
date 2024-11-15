@@ -77,4 +77,17 @@ scrapped code;
 
   // generates board layout
   grid = boardLayout(GRID_DIM, GRID_DIM);
+
+  function draw() {
+  background(COLOR_PALETTE.BG);
+  textFont(gameFont); // sets text font
+
+  if (gameState === "title") {
+    titleScreen(); // displays 'title' screen
+  }
+  else if (gameState === "play") {
+    boardGraphics();
+    infoGraphics();
+  }
+}
 }

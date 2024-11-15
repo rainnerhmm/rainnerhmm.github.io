@@ -32,17 +32,14 @@
 // (a wide variety of quality of projects are represented). 
 
 // variables below are all for creating the grid
-let grid
+let grid;
 const GRID_DIM = 11; // grid dimensions; number of rows and columns (11x11sq)
 
 // variables below are all for game aspects
-let gameState = "play"; // sets the 'title' screen state
-
 let player = {
-  pA: null,
-  pB: null,
-  pC: null,
-  pD: null,
+  x: 0,
+  y: 0,
+  tile: 1,
 };
 
 const TILES = {
@@ -54,11 +51,14 @@ const TILES = {
   BOUND: "#",
 };
 
+let prevTile;
+let timer = 60;
+
 // variables below are all for visual aspects
 let bgMusic, clickSound, titleLogo, gameFont;
 
 const COLOR_PALETTE = { // for consistent colors, and ease of use
-  PURPLE: "#893bb3ff",  
+  PURPLE: "#893bb3ff",
   BLUE: "#00a7e1ff",
   RED: "#ff4747ff",
   GREEN: "#0cca4aff",
@@ -88,8 +88,6 @@ function preload() {
   soundFormats("mp3");
   bgMusic = loadSound("assets/music/bgMusic.mp3"); // "Twistee Island" from Mario & Luigi; Brothership by Nintendo
 
-  player.pA = loadImage("assets/graphics/playPiece.svg"); // "Twistee Island" from Mario & Luigi; Brothership by Kenney
-
   gameFont = loadFont("assets/fonts/gameFont.otf"); // "MARIO_Font_v3_Solid" or the official 'Mario Font' by Nintendo and Fontworks
 }
 
@@ -97,11 +95,12 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
 
   // scales everything to current window width
-  gridSize = windowWidth * SCALE.GRID;  
+  gridSize = windowWidth * SCALE.GRID;
   cellSize = gridSize / GRID_DIM;
 
   clockSize = windowWidth * SCALE.CLOCK;
 
+  stroke(gridSize * SCALE.TEXT);
   textSize(gridSize * SCALE.TEXT);
 
   // centers board / grid
@@ -113,6 +112,8 @@ function setup() {
 
   // generates board layout
   grid = boardLayout(GRID_DIM, GRID_DIM);
+  // add player to grid
+  grid[player.y][player.x] = player.tile;
 }
 
 
@@ -120,16 +121,11 @@ function draw() {
   background(COLOR_PALETTE.BG);
   textFont(gameFont); // sets text font
 
-  if (gameState === "title") {
-    titleScreen(); // displays 'title' screen
-  }
-  else if (gameState === "play") {
-    boardGraphics();
-    infoGraphics();
-  }
+  boardGraphics();
+  infoGraphics();
 }
 
-function backgroundMusic() {  
+function backgroundMusic() {
   bgMusic.play();
   bgMusic.loop();
   bgMusic.amp(SCALE.MUSIC);
@@ -139,16 +135,25 @@ function mousePressed() {
   if (!bgMusic.isPlaying()) {
     backgroundMusic();
   }
-  if (gameState === "title") {
-    gameState = "play"; // switches 'title screen' state to an 'play' state, going right
-  }
 }
 
-function titleScreen() {
-  // image(titleImage);
-  let startText = "press any button";
-  textAlign(CENTER, CENTER);
-  text(startText, width / 2, height / 2); // displays 'title' screen text
+function keyPressed() {
+  if (key === "w") {
+    // move up
+    movement(player.x, player.y - 1);
+  }
+  if (key === "a") {
+    // move left
+    movement(player.x - 1, player.y);
+  }
+  if (key === "s") {
+    // move down
+    movement(player.x, player.y + 1);
+  }
+  if (key === "d") {
+    // move right
+    movement(player.x + 1, player.y);
+  }
 }
 
 function boardLayout(cols, rows) {
@@ -182,7 +187,6 @@ function boardLayout(cols, rows) {
 function boardGraphics() {
   for (let y = 0; y < GRID_DIM; y++) {
     for (let x = 0; x < GRID_DIM; x++) {
-      noStroke();
       if (grid[y][x] === TILES.PURPLE) {
         fill(COLOR_PALETTE.PURPLE);
         square(x * cellSize + horizPadding, y * cellSize + vertPadding, cellSize);
@@ -212,16 +216,39 @@ function boardGraphics() {
         fill(COLOR_PALETTE.BOUND);
         square(x * cellSize + horizPadding, y * cellSize + vertPadding, cellSize);
       }
+
+      else if (grid[y][x] === player.tile) {
+        fill(COLOR_PALETTE.PURPLE);
+        square(player.x * cellSize + horizPadding, player.y * cellSize + vertPadding, cellSize);
+      }
     }
+  }
+}
+
+function movement(x, y) {
+  if (x >= 0 && x < gridSize && y >= 0 && y < gridSize && grid[y][x] !== TILES.BOUND) {
+    prevTile = grid[y][x];
+    // when moving, reset to open spot
+    grid[player.y][player.x] = prevTile;
+
+    // keep track of player location
+    player.x = x;
+    player.y = y;
+
+    // put player in grid
+    grid[player.y][player.x] = player.tile;
   }
 }
 
 function infoGraphics() {
   textAlign(CENTER, CENTER);
-  // timer
   circle(windowWidth * SCALE.HALVED, vertPadding * SCALE.HALVED, clockSize * SCALE.CLOCK);
+
+  if (timer * millis() > 0){
+    timer -= 1;
+  }
   fill(COLOR_PALETTE.BG);
-  text("60", windowWidth * SCALE.HALVED, vertPadding * SCALE.HALVED);
+  text(timer, windowWidth * SCALE.HALVED, vertPadding * SCALE.HALVED);
 }
 
 function windowResized() { // will reposition assets when changing screen size, any comments in the setup apply here
@@ -231,6 +258,7 @@ function windowResized() { // will reposition assets when changing screen size, 
   cellSize = gridSize / GRID_DIM;
 
   clockSize = windowWidth * SCALE.CLOCK;
+
   textSize(gridSize * SCALE.TEXT);
 
   horizPadding = (windowWidth - gridSize) * SCALE.HALVED;
