@@ -26,8 +26,9 @@ its my personal github thing
 - [super javascriptio maker](d15-platformer)
 
 ### repositories
-- [rocks! papers!! scissors!!!](https://rainnerhmm.github.io/rockspapersscissors-js/interactivescene/)
-- [hook 'em! a fishing game](https://rainnerhmm.github.io/fishing-js/arrayproject/)
+- [rocks! papers!! scissors!!!](https://rainnerhmm.github.io/rockspapersscissors-js/rockspapersscissors/)
+- [hook 'em! a fishing game](https://rainnerhmm.github.io/fishing-js/hookem/)
+- [partyduel!](https://rainnerhmm.github.io/partyduel-js/partyduel/)
 
 ## compsci twenty
 
