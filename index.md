@@ -24,6 +24,7 @@ its my personal github thing
 - [rectangrids explode](d13-rectangrids)
 - [guy versus the gridbased lawn](d14-gridstuck)
 - [super javascriptio maker](d15-platformer)
+- [firework 'splode](d17-fireworks)
 
 ### repositories
 - [rocks! papers!! scissors!!!](https://rainnerhmm.github.io/rockspapersscissors-js/rockspapersscissors/)
