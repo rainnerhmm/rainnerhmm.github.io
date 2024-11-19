@@ -30,9 +30,9 @@ its my personal github thing
 - [baby you a firework that 'sploded](d17-fireworks)
 
 ### repositories
-- [rocks! papers!! scissors!!!](https://rainnerhmm.github.io/rockspapersscissors-js/rockspapersscissors/)
-- [hook 'em! a fishing game](https://rainnerhmm.github.io/fishing-js/hookem/)
-- [partyduel!](https://rainnerhmm.github.io/partyduel-js/partyduel/)
+- [rocks! papers!! scissors!!!](https://rainnerhmm.github.io/rockspapersscissors-js/)
+- [hook 'em! a fishing game](https://rainnerhmm.github.io/fishing-js/)
+- [partyduel!](https://rainnerhmm.github.io/partyduel-js/)
 
 ## compsci twenty
 
