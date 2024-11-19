@@ -3,10 +3,13 @@ its my personal github thing
 
 ## compsci thirty
 
+### majorproject
+- [majorproject?!](https://rainnerhmm.github.io/majorproject-js/)
+
 ### projects
 - ['rocks! papers!! scissors!!!' interactive scene](p01-interactivescene)
 - ['hook 'em! a fishing game' objects and the array'd](p02-arraysobjects)
-- [gridsgrids and more grids](p03-gridbased)
+- ['partyduel!' gridsgrids and more grids](p03-gridbased)
 
 ### demos
 - [schmovin' square](d01-movingsquare)
@@ -24,7 +27,7 @@ its my personal github thing
 - [rectangrids explode](d13-rectangrids)
 - [guy versus the gridbased lawn](d14-gridstuck)
 - [super javascriptio maker](d15-platformer)
-- [firework 'splode](d17-fireworks)
+- [baby you a firework that 'sploded](d17-fireworks)
 
 ### repositories
 - [rocks! papers!! scissors!!!](https://rainnerhmm.github.io/rockspapersscissors-js/rockspapersscissors/)
