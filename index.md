@@ -28,6 +28,8 @@ its my personal github thing
 - [guy versus the gridbased lawn](d14-gridstuck)
 - [super javascriptio maker](d15-platformer)
 - [baby you a firework that 'sploded](d17-fireworks)
+- [in the node](d18-noded)
+
 
 ### repositories
 - [rocks! papers!! scissors!!!](https://rainnerhmm.github.io/rockspapersscissors-js/)
