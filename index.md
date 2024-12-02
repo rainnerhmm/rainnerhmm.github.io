@@ -30,6 +30,7 @@ its my personal github thing
 - [baby you a firework that 'sploded](d17-fireworks)
 - [in the node](d18-noded)
 - [the last collide twodee](d19-collision)
+- [store locale](d20-localstore)
 
 
 ### repositories
