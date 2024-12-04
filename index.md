@@ -31,6 +31,7 @@ its my personal github thing
 - [in the node](d18-noded)
 - [the last collide twodee](d19-collision)
 - [store locale](d20-localstore)
+- [inheriting the child](d21-inheritence)
 
 
 ### repositories
