@@ -32,6 +32,7 @@ its my personal github thing
 - [the last collide twodee](d19-collision)
 - [store locale](d20-localstore)
 - [inheriting the child](d21-inheritence)
+- [frac and tals](d22-fractals)
 
 
 ### repositories
